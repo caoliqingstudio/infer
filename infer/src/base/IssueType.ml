@@ -699,6 +699,11 @@ let query_concatenation =
     ~user_documentation:"SQL query built by concatenation with potentially untrusted string"
 
 
+let user_controlled_query =
+  register ~category:SensitiveDataFlow ~id:"USER_CONTROLLED_QUERY" Error UserControlledQuery
+    ~user_documentation:"SQL query built from user-controlled sources"
+
+
 let unsafe_deserialization =
   register ~category:SensitiveDataFlow ~id:"UNSAFE_DESERIALIZATION" Error UnsafeDeserialization
     ~user_documentation:"Unsafe deserialization of user-controlled data may allow arbitrary code execution"

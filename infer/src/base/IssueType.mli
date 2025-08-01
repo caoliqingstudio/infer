@@ -223,6 +223,8 @@ val temp_dir_local_information_disclosure : t
 
 val query_concatenation : t
 
+val user_controlled_query : t
+
 val unsafe_deserialization : t
 
 val lockless_violation : t

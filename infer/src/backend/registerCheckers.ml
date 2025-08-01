@@ -194,6 +194,10 @@ let all_checkers =
     ; callbacks=
         [ ( interprocedural Payloads.Fields.query_concatenation Labs.QueryConcatenation.checker
           , Java ) ] }
+  ; { checker= UserControlledQuery
+    ; callbacks=
+        [ ( interprocedural Payloads.Fields.user_controlled_query Labs.UserControlledQuery.checker
+          , Java ) ] }
   ; { checker= UnsafeDeserialization
     ; callbacks=
         [ ( interprocedural Payloads.Fields.unsafe_deserialization Labs.UnsafeDeserialization.checker

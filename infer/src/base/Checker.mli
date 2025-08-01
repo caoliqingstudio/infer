@@ -47,6 +47,7 @@ type t =
   | PartialPathTraversal
   | TempDirDisclosure
   | QueryConcatenation
+  | UserControlledQuery
 [@@deriving equal, enumerate]
 
 (** per-language support for each checker *)

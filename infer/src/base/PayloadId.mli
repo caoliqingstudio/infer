@@ -37,6 +37,7 @@ type t =
   | PartialPathTraversalPayload
   | TempDirDisclosurePayload
   | QueryConcatenationPayload
+  | UserControlledQueryPayload
 [@@deriving compare, equal, hash, show, variants]
 
 val database_fields : string list

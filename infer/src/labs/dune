@@ -30,7 +30,9 @@
   TempDirDisclosure
   TempDirDisclosureDomain
   QueryConcatenation
-  QueryConcatenationDomain)
+  QueryConcatenationDomain
+  UserControlledQuery
+  UserControlledQueryDomain)
  (flags
   (:standard
    -open

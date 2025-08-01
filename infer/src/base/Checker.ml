@@ -48,6 +48,7 @@ type t =
   | PartialPathTraversal
   | TempDirDisclosure
   | QueryConcatenation
+  | UserControlledQuery
 [@@deriving compare, equal, enumerate]
 
 type support = NoSupport | ExperimentalSupport | Support
@@ -482,6 +483,15 @@ let config_unsafe checker =
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
           "Detect SQL queries built by concatenation with potentially untrusted strings"
+      ; cli_flags= Some {deprecated= []; show_in_help= true}
+      ; enabled_by_default= false
+      ; activates= [] }
+  | UserControlledQuery ->
+      { id= "my-user-controlled-query-only"
+      ; kind= UserFacing {title= "User Controlled Query"; markdown_body= "Detects SQL injection from user-controlled sources (CWE-089)"}
+      ; support= mk_support_func ~java:ExperimentalSupport ()
+      ; short_documentation=
+          "Detect SQL queries built from user-controlled data sources"
       ; cli_flags= Some {deprecated= []; show_in_help= true}
       ; enabled_by_default= false
       ; activates= [] }
