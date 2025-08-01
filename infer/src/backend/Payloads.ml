@@ -30,7 +30,9 @@ type t =
   ; unsafe_deserialization: Labs.UnsafeDeserializationDomain.t SafeLazy.t option
   ; zip_slip: ZipSlipDomain.summary SafeLazy.t option
   ; insecure_cookie: Labs.InsecureCookieDomain.t SafeLazy.t option
-  ; netty_http_header_validation: Labs.NettyHttpHeaderValidationDomain.t SafeLazy.t option }
+  ; netty_http_header_validation: Labs.NettyHttpHeaderValidationDomain.t SafeLazy.t option 
+  ; csrf: Labs.CsrfDomain.summary SafeLazy.t option 
+  ; insecure_ldap: Labs.InsecureLdapDomain.summary SafeLazy.t option }
 [@@deriving fields]
 
 let yojson_of_t {pulse} =
@@ -83,6 +85,8 @@ let all_fields =
     ~zip_slip:(fun f -> mk f ZipSlipPayload ZipSlipDomain.pp)
     ~insecure_cookie:(fun f -> mk f InsecureCookiePayload Labs.InsecureCookieDomain.pp)
     ~netty_http_header_validation:(fun f -> mk f NettyHttpHeaderValidationPayload Labs.NettyHttpHeaderValidationDomain.pp)
+    ~csrf:(fun f -> mk f CsrfPayload Labs.CsrfDomain.pp)
+    ~insecure_ldap:(fun f -> mk f InsecureLdapPayload Labs.InsecureLdapDomain.pp)
   (* sorted to help serialization, see {!SQLite.serialize} below *)
   |> List.sort ~compare:(fun (F {payload_id= payload_id1}) (F {payload_id= payload_id2}) ->
          Int.compare
@@ -130,7 +134,9 @@ let empty =
   ; unsafe_deserialization= None
   ; zip_slip= None
   ; insecure_cookie= None
-  ; netty_http_header_validation= None }
+  ; netty_http_header_validation= None 
+  ; csrf= None 
+  ; insecure_ldap= None }
 
 
 (* Force lazy payloads and allow marshalling of the resulting value *)
@@ -155,7 +161,9 @@ let freeze t =
        ; unsafe_deserialization
        ; zip_slip
        ; insecure_cookie
-       ; netty_http_header_validation }
+       ; netty_http_header_validation 
+       ; csrf 
+       ; insecure_ldap }
        [@warning "+missing-record-field-pattern"] ) =
     t
   in
@@ -180,6 +188,8 @@ let freeze t =
   freeze zip_slip ;
   freeze insecure_cookie ;
   freeze netty_http_header_validation ;
+  freeze csrf ;
+  freeze insecure_ldap ;
   ()
 
 
@@ -283,6 +293,8 @@ module SQLite = struct
       ~zip_slip:data_of_sqlite_column
       ~insecure_cookie:data_of_sqlite_column
       ~netty_http_header_validation:data_of_sqlite_column
+      ~csrf:data_of_sqlite_column
+      ~insecure_ldap:data_of_sqlite_column
 
 
   let eager_load stmt ~first_column = (make_eager first_column |> fst) stmt
@@ -341,5 +353,7 @@ module SQLite = struct
     ; unsafe_deserialization= load ~proc_uid UnsafeDeserialization
     ; zip_slip= load ~proc_uid ZipSlipPayload
     ; insecure_cookie= load ~proc_uid InsecureCookiePayload
-    ; netty_http_header_validation= load ~proc_uid NettyHttpHeaderValidationPayload }
+    ; netty_http_header_validation= load ~proc_uid NettyHttpHeaderValidationPayload 
+    ; csrf= load ~proc_uid CsrfPayload 
+    ; insecure_ldap= load ~proc_uid InsecureLdapPayload }
 end

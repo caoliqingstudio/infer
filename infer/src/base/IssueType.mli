@@ -209,6 +209,10 @@ val insecure_cookie : t
 
 val netty_http_header_validation_disabled : t
 
+val csrf_vulnerability : t
+
+val insecure_ldap_auth : t
+
 val unsafe_deserialization : t
 
 val lockless_violation : t

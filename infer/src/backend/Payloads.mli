@@ -39,7 +39,9 @@ include sig
     ; unsafe_deserialization: Labs.UnsafeDeserializationDomain.t SafeLazy.t option
     ; zip_slip: ZipSlipDomain.summary SafeLazy.t option
     ; insecure_cookie: Labs.InsecureCookieDomain.t SafeLazy.t option
-    ; netty_http_header_validation: Labs.NettyHttpHeaderValidationDomain.t SafeLazy.t option }
+    ; netty_http_header_validation: Labs.NettyHttpHeaderValidationDomain.t SafeLazy.t option 
+    ; csrf: Labs.CsrfDomain.summary SafeLazy.t option 
+    ; insecure_ldap: Labs.InsecureLdapDomain.summary SafeLazy.t option }
   [@@deriving fields, yojson_of]
 end
 

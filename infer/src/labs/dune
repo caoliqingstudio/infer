@@ -16,7 +16,11 @@
   ZipSlip
   ZipSlipDomain
   InsecureCookie
-  InsecureCookieDomain)
+  InsecureCookieDomain
+  Csrf
+  CsrfDomain
+  InsecureLdap
+  InsecureLdapDomain)
  (flags
   (:standard
    -open

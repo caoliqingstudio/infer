@@ -664,6 +664,16 @@ let netty_http_header_validation_disabled =
     ~user_documentation:"Netty HTTP header validation disabled: validateHeaders parameter set to false"
 
 
+let csrf_vulnerability =
+  register ~category:SensitiveDataFlow ~id:"CSRF_VULNERABILITY" Error Csrf
+    ~user_documentation:"HTTP request handler using safe methods (GET/HEAD) for state-changing operations"
+
+
+let insecure_ldap_auth =
+  register ~category:SensitiveDataFlow ~id:"INSECURE_LDAP_AUTH" Error InsecureLdap  
+    ~user_documentation:"LDAP authentication using ldap:// URL with basic authentication without SSL encryption"
+
+
 let unsafe_deserialization =
   register ~category:SensitiveDataFlow ~id:"UNSAFE_DESERIALIZATION" Error UnsafeDeserialization
     ~user_documentation:"Unsafe deserialization of user-controlled data may allow arbitrary code execution"

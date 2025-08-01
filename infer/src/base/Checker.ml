@@ -41,6 +41,8 @@ type t =
   | ZipSlip
   | InsecureCookie
   | NettyHttpHeaderValidation
+  | Csrf
+  | InsecureLdap
 [@@deriving compare, equal, enumerate]
 
 type support = NoSupport | ExperimentalSupport | Support
@@ -412,6 +414,24 @@ let config_unsafe checker =
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
           "Detect when Netty HTTP classes are instantiated with header validation disabled (validateHeaders=false)"
+      ; cli_flags= Some {deprecated= []; show_in_help= true}
+      ; enabled_by_default= false
+      ; activates= [] }
+  | Csrf ->
+      { id= "my-csrf-only"
+      ; kind= UserFacing {title= "CSRF Protection"; markdown_body= "Detects HTTP request types unprotected from CSRF (CWE-352)"}
+      ; support= mk_support_func ~java:ExperimentalSupport ()
+      ; short_documentation=
+          "Detect HTTP request handlers using safe methods (GET/HEAD) for state-changing operations"
+      ; cli_flags= Some {deprecated= []; show_in_help= true}
+      ; enabled_by_default= false
+      ; activates= [] }
+  | InsecureLdap ->
+      { id= "my-insecure-ldap-only"
+      ; kind= UserFacing {title= "Insecure LDAP Authentication"; markdown_body= "Detects insecure LDAP authentication vulnerabilities (CWE-522/CWE-319)"}
+      ; support= mk_support_func ~java:ExperimentalSupport ()
+      ; short_documentation=
+          "Detect LDAP authentication using ldap:// URLs with basic authentication without SSL encryption"
       ; cli_flags= Some {deprecated= []; show_in_help= true}
       ; enabled_by_default= false
       ; activates= [] }

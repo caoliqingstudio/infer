@@ -40,6 +40,8 @@ type t =
   | ZipSlip
   | InsecureCookie
   | NettyHttpHeaderValidation
+  | Csrf
+  | InsecureLdap
 [@@deriving equal, enumerate]
 
 (** per-language support for each checker *)

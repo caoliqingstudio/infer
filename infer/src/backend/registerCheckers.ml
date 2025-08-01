@@ -166,6 +166,14 @@ let all_checkers =
     ; callbacks=
         [ ( interprocedural Payloads.Fields.netty_http_header_validation Labs.NettyHttpHeaderValidation.checker
           , Java ) ] }
+  ; { checker= Csrf
+    ; callbacks=
+        [ ( interprocedural Payloads.Fields.csrf Labs.Csrf.checker
+          , Java ) ] }
+  ; { checker= InsecureLdap
+    ; callbacks=
+        [ ( interprocedural Payloads.Fields.insecure_ldap Labs.InsecureLdap.checker
+          , Java ) ] }
   ; { checker= UnsafeDeserialization
     ; callbacks=
         [ ( interprocedural Payloads.Fields.unsafe_deserialization Labs.UnsafeDeserialization.checker
