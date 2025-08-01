@@ -684,6 +684,11 @@ let log_injection =
     ~user_documentation:"Log entry depends on user-controlled data that may allow log injection attacks"
 
 
+let partial_path_traversal =
+  register ~category:SensitiveDataFlow ~id:"PARTIAL_PATH_TRAVERSAL" Error PartialPathTraversal
+    ~user_documentation:"Partial Path Traversal Vulnerability due to insufficient guard against path traversal"
+
+
 let temp_dir_local_information_disclosure =
   register ~category:SensitiveDataFlow ~id:"TEMP_DIR_LOCAL_INFORMATION_DISCLOSURE" Error TempDirDisclosure
     ~user_documentation:"Local information disclosure vulnerability due to file/directory creation in shared temporary directory without explicit permissions"

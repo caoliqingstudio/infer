@@ -217,6 +217,8 @@ val ldap_injection : t
 
 val log_injection : t
 
+val partial_path_traversal : t
+
 val temp_dir_local_information_disclosure : t
 
 val unsafe_deserialization : t

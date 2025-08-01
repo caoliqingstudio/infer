@@ -35,6 +35,7 @@ type t =
   ; insecure_ldap: Labs.InsecureLdapDomain.summary SafeLazy.t option 
   ; ldap_injection: Labs.LdapInjectionDomain.summary SafeLazy.t option 
   ; log_injection: Labs.LogInjectionDomain.summary SafeLazy.t option 
+  ; partial_path_traversal: Labs.PartialPathTraversalDomain.summary SafeLazy.t option 
   ; temp_dir_disclosure: Labs.TempDirDisclosureDomain.summary SafeLazy.t option }
 [@@deriving fields]
 
@@ -92,6 +93,7 @@ let all_fields =
     ~insecure_ldap:(fun f -> mk f InsecureLdapPayload Labs.InsecureLdapDomain.pp)
     ~ldap_injection:(fun f -> mk f LdapInjectionPayload Labs.LdapInjectionDomain.pp)
     ~log_injection:(fun f -> mk f LogInjectionPayload Labs.LogInjectionDomain.pp)
+    ~partial_path_traversal:(fun f -> mk f PartialPathTraversalPayload Labs.PartialPathTraversalDomain.pp)
     ~temp_dir_disclosure:(fun f -> mk f TempDirDisclosurePayload Labs.TempDirDisclosureDomain.pp)
   (* sorted to help serialization, see {!SQLite.serialize} below *)
   |> List.sort ~compare:(fun (F {payload_id= payload_id1}) (F {payload_id= payload_id2}) ->
@@ -145,6 +147,7 @@ let empty =
   ; insecure_ldap= None 
   ; ldap_injection= None 
   ; log_injection= None 
+  ; partial_path_traversal= None 
   ; temp_dir_disclosure= None }
 
 
@@ -175,6 +178,7 @@ let freeze t =
        ; insecure_ldap 
        ; ldap_injection 
        ; log_injection 
+       ; partial_path_traversal 
        ; temp_dir_disclosure }
        [@warning "+missing-record-field-pattern"] ) =
     t
@@ -204,6 +208,7 @@ let freeze t =
   freeze insecure_ldap ;
   freeze ldap_injection ;
   freeze log_injection ;
+  freeze partial_path_traversal ;
   freeze temp_dir_disclosure ;
   ()
 
@@ -312,6 +317,7 @@ module SQLite = struct
       ~insecure_ldap:data_of_sqlite_column
       ~ldap_injection:data_of_sqlite_column
       ~log_injection:data_of_sqlite_column
+      ~partial_path_traversal:data_of_sqlite_column
       ~temp_dir_disclosure:data_of_sqlite_column
 
 
@@ -376,5 +382,6 @@ module SQLite = struct
     ; insecure_ldap= load ~proc_uid InsecureLdapPayload 
     ; ldap_injection= load ~proc_uid LdapInjectionPayload 
     ; log_injection= load ~proc_uid LogInjectionPayload 
+    ; partial_path_traversal= load ~proc_uid PartialPathTraversalPayload 
     ; temp_dir_disclosure= load ~proc_uid TempDirDisclosurePayload }
 end

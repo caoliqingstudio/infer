@@ -33,6 +33,7 @@ type t =
   | InsecureLdapPayload
   | LdapInjectionPayload
   | LogInjectionPayload
+  | PartialPathTraversalPayload
   | TempDirDisclosurePayload
 [@@deriving compare, equal, hash, show, variants]
 
@@ -90,5 +91,7 @@ let to_checker payload_id : Checker.t =
       LdapInjection
   | LogInjectionPayload ->
       LogInjection
+  | PartialPathTraversalPayload ->
+      PartialPathTraversal
   | TempDirDisclosurePayload ->
       TempDirDisclosure

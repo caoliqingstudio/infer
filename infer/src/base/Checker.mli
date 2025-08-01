@@ -44,6 +44,7 @@ type t =
   | InsecureLdap
   | LdapInjection
   | LogInjection
+  | PartialPathTraversal
   | TempDirDisclosure
 [@@deriving equal, enumerate]
 

@@ -25,6 +25,8 @@
   LdapInjectionDomain
   LogInjection
   LogInjectionDomain
+  PartialPathTraversal
+  PartialPathTraversalDomain
   TempDirDisclosure
   TempDirDisclosureDomain)
  (flags

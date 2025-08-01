@@ -182,6 +182,10 @@ let all_checkers =
     ; callbacks=
         [ ( interprocedural Payloads.Fields.log_injection Labs.LogInjection.checker
           , Java ) ] }
+  ; { checker= PartialPathTraversal
+    ; callbacks=
+        [ ( interprocedural Payloads.Fields.partial_path_traversal Labs.PartialPathTraversal.checker
+          , Java ) ] }
   ; { checker= TempDirDisclosure
     ; callbacks=
         [ ( interprocedural Payloads.Fields.temp_dir_disclosure Labs.TempDirDisclosure.checker

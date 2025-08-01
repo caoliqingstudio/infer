@@ -34,6 +34,7 @@ type t =
   | InsecureLdapPayload
   | LdapInjectionPayload
   | LogInjectionPayload
+  | PartialPathTraversalPayload
   | TempDirDisclosurePayload
 [@@deriving compare, equal, hash, show, variants]
 

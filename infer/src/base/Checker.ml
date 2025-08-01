@@ -45,6 +45,7 @@ type t =
   | InsecureLdap
   | LdapInjection
   | LogInjection
+  | PartialPathTraversal
   | TempDirDisclosure
 [@@deriving compare, equal, enumerate]
 
@@ -453,6 +454,15 @@ let config_unsafe checker =
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
           "Detect log entries constructed using user input without proper sanitization"
+      ; cli_flags= Some {deprecated= []; show_in_help= true}
+      ; enabled_by_default= false
+      ; activates= [] }
+  | PartialPathTraversal ->
+      { id= "my-partial-path-traversal-only"
+      ; kind= UserFacing {title= "Partial Path Traversal"; markdown_body= "Detects partial path traversal vulnerabilities (CWE-023)"}
+      ; support= mk_support_func ~java:ExperimentalSupport ()
+      ; short_documentation=
+          "Detect insufficient guards against path traversal in startsWith checks"
       ; cli_flags= Some {deprecated= []; show_in_help= true}
       ; enabled_by_default= false
       ; activates= [] }
