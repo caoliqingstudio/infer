@@ -190,6 +190,10 @@ let all_checkers =
     ; callbacks=
         [ ( interprocedural Payloads.Fields.temp_dir_disclosure Labs.TempDirDisclosure.checker
           , Java ) ] }
+  ; { checker= QueryConcatenation
+    ; callbacks=
+        [ ( interprocedural Payloads.Fields.query_concatenation Labs.QueryConcatenation.checker
+          , Java ) ] }
   ; { checker= UnsafeDeserialization
     ; callbacks=
         [ ( interprocedural Payloads.Fields.unsafe_deserialization Labs.UnsafeDeserialization.checker

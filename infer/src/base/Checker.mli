@@ -46,6 +46,7 @@ type t =
   | LogInjection
   | PartialPathTraversal
   | TempDirDisclosure
+  | QueryConcatenation
 [@@deriving equal, enumerate]
 
 (** per-language support for each checker *)

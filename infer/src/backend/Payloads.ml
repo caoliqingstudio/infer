@@ -36,7 +36,8 @@ type t =
   ; ldap_injection: Labs.LdapInjectionDomain.summary SafeLazy.t option 
   ; log_injection: Labs.LogInjectionDomain.summary SafeLazy.t option 
   ; partial_path_traversal: Labs.PartialPathTraversalDomain.summary SafeLazy.t option 
-  ; temp_dir_disclosure: Labs.TempDirDisclosureDomain.summary SafeLazy.t option }
+  ; temp_dir_disclosure: Labs.TempDirDisclosureDomain.summary SafeLazy.t option
+  ; query_concatenation: Labs.QueryConcatenationDomain.t SafeLazy.t option }
 [@@deriving fields]
 
 let yojson_of_t {pulse} =
@@ -95,6 +96,7 @@ let all_fields =
     ~log_injection:(fun f -> mk f LogInjectionPayload Labs.LogInjectionDomain.pp)
     ~partial_path_traversal:(fun f -> mk f PartialPathTraversalPayload Labs.PartialPathTraversalDomain.pp)
     ~temp_dir_disclosure:(fun f -> mk f TempDirDisclosurePayload Labs.TempDirDisclosureDomain.pp)
+    ~query_concatenation:(fun f -> mk f QueryConcatenationPayload Labs.QueryConcatenationDomain.pp)
   (* sorted to help serialization, see {!SQLite.serialize} below *)
   |> List.sort ~compare:(fun (F {payload_id= payload_id1}) (F {payload_id= payload_id2}) ->
          Int.compare
@@ -148,7 +150,8 @@ let empty =
   ; ldap_injection= None 
   ; log_injection= None 
   ; partial_path_traversal= None 
-  ; temp_dir_disclosure= None }
+  ; temp_dir_disclosure= None
+  ; query_concatenation= None }
 
 
 (* Force lazy payloads and allow marshalling of the resulting value *)
@@ -179,7 +182,8 @@ let freeze t =
        ; ldap_injection 
        ; log_injection 
        ; partial_path_traversal 
-       ; temp_dir_disclosure }
+       ; temp_dir_disclosure
+       ; query_concatenation }
        [@warning "+missing-record-field-pattern"] ) =
     t
   in
@@ -210,6 +214,7 @@ let freeze t =
   freeze log_injection ;
   freeze partial_path_traversal ;
   freeze temp_dir_disclosure ;
+  freeze query_concatenation ;
   ()
 
 
@@ -319,6 +324,7 @@ module SQLite = struct
       ~log_injection:data_of_sqlite_column
       ~partial_path_traversal:data_of_sqlite_column
       ~temp_dir_disclosure:data_of_sqlite_column
+      ~query_concatenation:data_of_sqlite_column
 
 
   let eager_load stmt ~first_column = (make_eager first_column |> fst) stmt
@@ -383,5 +389,6 @@ module SQLite = struct
     ; ldap_injection= load ~proc_uid LdapInjectionPayload 
     ; log_injection= load ~proc_uid LogInjectionPayload 
     ; partial_path_traversal= load ~proc_uid PartialPathTraversalPayload 
-    ; temp_dir_disclosure= load ~proc_uid TempDirDisclosurePayload }
+    ; temp_dir_disclosure= load ~proc_uid TempDirDisclosurePayload
+    ; query_concatenation= load ~proc_uid QueryConcatenationPayload }
 end

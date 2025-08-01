@@ -36,6 +36,7 @@ type t =
   | LogInjectionPayload
   | PartialPathTraversalPayload
   | TempDirDisclosurePayload
+  | QueryConcatenationPayload
 [@@deriving compare, equal, hash, show, variants]
 
 val database_fields : string list

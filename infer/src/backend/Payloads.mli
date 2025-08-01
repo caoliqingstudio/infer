@@ -45,7 +45,8 @@ include sig
     ; ldap_injection: Labs.LdapInjectionDomain.summary SafeLazy.t option 
     ; log_injection: Labs.LogInjectionDomain.summary SafeLazy.t option 
     ; partial_path_traversal: Labs.PartialPathTraversalDomain.summary SafeLazy.t option 
-    ; temp_dir_disclosure: Labs.TempDirDisclosureDomain.summary SafeLazy.t option }
+    ; temp_dir_disclosure: Labs.TempDirDisclosureDomain.summary SafeLazy.t option
+    ; query_concatenation: Labs.QueryConcatenationDomain.t SafeLazy.t option }
   [@@deriving fields, yojson_of]
 end
 

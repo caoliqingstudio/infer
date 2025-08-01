@@ -35,6 +35,7 @@ type t =
   | LogInjectionPayload
   | PartialPathTraversalPayload
   | TempDirDisclosurePayload
+  | QueryConcatenationPayload
 [@@deriving compare, equal, hash, show, variants]
 
 let database_fields = List.map ~f:fst Variants.descriptions
@@ -95,3 +96,5 @@ let to_checker payload_id : Checker.t =
       PartialPathTraversal
   | TempDirDisclosurePayload ->
       TempDirDisclosure
+  | QueryConcatenationPayload ->
+      QueryConcatenation

@@ -694,6 +694,11 @@ let temp_dir_local_information_disclosure =
     ~user_documentation:"Local information disclosure vulnerability due to file/directory creation in shared temporary directory without explicit permissions"
 
 
+let query_concatenation =
+  register ~category:SensitiveDataFlow ~id:"QUERY_CONCATENATION" Error QueryConcatenation
+    ~user_documentation:"SQL query built by concatenation with potentially untrusted string"
+
+
 let unsafe_deserialization =
   register ~category:SensitiveDataFlow ~id:"UNSAFE_DESERIALIZATION" Error UnsafeDeserialization
     ~user_documentation:"Unsafe deserialization of user-controlled data may allow arbitrary code execution"

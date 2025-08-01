@@ -221,6 +221,8 @@ val partial_path_traversal : t
 
 val temp_dir_local_information_disclosure : t
 
+val query_concatenation : t
+
 val unsafe_deserialization : t
 
 val lockless_violation : t

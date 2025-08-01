@@ -28,7 +28,9 @@
   PartialPathTraversal
   PartialPathTraversalDomain
   TempDirDisclosure
-  TempDirDisclosureDomain)
+  TempDirDisclosureDomain
+  QueryConcatenation
+  QueryConcatenationDomain)
  (flags
   (:standard
    -open
