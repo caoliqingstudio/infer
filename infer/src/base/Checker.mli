@@ -43,6 +43,8 @@ type t =
   | Csrf
   | InsecureLdap
   | LdapInjection
+  | LogInjection
+  | TempDirDisclosure
 [@@deriving equal, enumerate]
 
 (** per-language support for each checker *)

@@ -42,7 +42,9 @@ include sig
     ; netty_http_header_validation: Labs.NettyHttpHeaderValidationDomain.t SafeLazy.t option 
     ; csrf: Labs.CsrfDomain.summary SafeLazy.t option 
     ; insecure_ldap: Labs.InsecureLdapDomain.summary SafeLazy.t option 
-    ; ldap_injection: Labs.LdapInjectionDomain.summary SafeLazy.t option }
+    ; ldap_injection: Labs.LdapInjectionDomain.summary SafeLazy.t option 
+    ; log_injection: Labs.LogInjectionDomain.summary SafeLazy.t option 
+    ; temp_dir_disclosure: Labs.TempDirDisclosureDomain.summary SafeLazy.t option }
   [@@deriving fields, yojson_of]
 end
 

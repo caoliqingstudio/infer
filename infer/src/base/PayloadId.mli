@@ -33,6 +33,8 @@ type t =
   | CsrfPayload
   | InsecureLdapPayload
   | LdapInjectionPayload
+  | LogInjectionPayload
+  | TempDirDisclosurePayload
 [@@deriving compare, equal, hash, show, variants]
 
 val database_fields : string list

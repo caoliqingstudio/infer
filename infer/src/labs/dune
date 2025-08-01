@@ -22,7 +22,11 @@
   InsecureLdap
   InsecureLdapDomain
   LdapInjection
-  LdapInjectionDomain)
+  LdapInjectionDomain
+  LogInjection
+  LogInjectionDomain
+  TempDirDisclosure
+  TempDirDisclosureDomain)
  (flags
   (:standard
    -open

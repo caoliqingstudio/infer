@@ -44,6 +44,8 @@ type t =
   | Csrf
   | InsecureLdap
   | LdapInjection
+  | LogInjection
+  | TempDirDisclosure
 [@@deriving compare, equal, enumerate]
 
 type support = NoSupport | ExperimentalSupport | Support
@@ -442,6 +444,24 @@ let config_unsafe checker =
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
           "Detect LDAP queries constructed using user input without proper sanitization"
+      ; cli_flags= Some {deprecated= []; show_in_help= true}
+      ; enabled_by_default= false
+      ; activates= [] }
+  | LogInjection ->
+      { id= "my-log-injection-only"
+      ; kind= UserFacing {title= "Log Injection"; markdown_body= "Detects log entries built from user-controlled sources (CWE-117)"}
+      ; support= mk_support_func ~java:ExperimentalSupport ()
+      ; short_documentation=
+          "Detect log entries constructed using user input without proper sanitization"
+      ; cli_flags= Some {deprecated= []; show_in_help= true}
+      ; enabled_by_default= false
+      ; activates= [] }
+  | TempDirDisclosure ->
+      { id= "my-temp-dir-disclosure-only"
+      ; kind= UserFacing {title= "Temp Directory Information Disclosure"; markdown_body= "Detects local information disclosure in temporary directories (CWE-200)"}
+      ; support= mk_support_func ~java:ExperimentalSupport ()
+      ; short_documentation=
+          "Detect file/directory creation in shared temporary directories without explicit permissions"
       ; cli_flags= Some {deprecated= []; show_in_help= true}
       ; enabled_by_default= false
       ; activates= [] }

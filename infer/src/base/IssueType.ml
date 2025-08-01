@@ -679,6 +679,16 @@ let ldap_injection =
     ~user_documentation:"LDAP query built from user-controlled sources without proper sanitization"
 
 
+let log_injection =
+  register ~category:SensitiveDataFlow ~id:"LOG_INJECTION" Error LogInjection
+    ~user_documentation:"Log entry depends on user-controlled data that may allow log injection attacks"
+
+
+let temp_dir_local_information_disclosure =
+  register ~category:SensitiveDataFlow ~id:"TEMP_DIR_LOCAL_INFORMATION_DISCLOSURE" Error TempDirDisclosure
+    ~user_documentation:"Local information disclosure vulnerability due to file/directory creation in shared temporary directory without explicit permissions"
+
+
 let unsafe_deserialization =
   register ~category:SensitiveDataFlow ~id:"UNSAFE_DESERIALIZATION" Error UnsafeDeserialization
     ~user_documentation:"Unsafe deserialization of user-controlled data may allow arbitrary code execution"

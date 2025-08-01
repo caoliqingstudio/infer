@@ -33,7 +33,9 @@ type t =
   ; netty_http_header_validation: Labs.NettyHttpHeaderValidationDomain.t SafeLazy.t option 
   ; csrf: Labs.CsrfDomain.summary SafeLazy.t option 
   ; insecure_ldap: Labs.InsecureLdapDomain.summary SafeLazy.t option 
-  ; ldap_injection: Labs.LdapInjectionDomain.summary SafeLazy.t option }
+  ; ldap_injection: Labs.LdapInjectionDomain.summary SafeLazy.t option 
+  ; log_injection: Labs.LogInjectionDomain.summary SafeLazy.t option 
+  ; temp_dir_disclosure: Labs.TempDirDisclosureDomain.summary SafeLazy.t option }
 [@@deriving fields]
 
 let yojson_of_t {pulse} =
@@ -89,6 +91,8 @@ let all_fields =
     ~csrf:(fun f -> mk f CsrfPayload Labs.CsrfDomain.pp)
     ~insecure_ldap:(fun f -> mk f InsecureLdapPayload Labs.InsecureLdapDomain.pp)
     ~ldap_injection:(fun f -> mk f LdapInjectionPayload Labs.LdapInjectionDomain.pp)
+    ~log_injection:(fun f -> mk f LogInjectionPayload Labs.LogInjectionDomain.pp)
+    ~temp_dir_disclosure:(fun f -> mk f TempDirDisclosurePayload Labs.TempDirDisclosureDomain.pp)
   (* sorted to help serialization, see {!SQLite.serialize} below *)
   |> List.sort ~compare:(fun (F {payload_id= payload_id1}) (F {payload_id= payload_id2}) ->
          Int.compare
@@ -139,7 +143,9 @@ let empty =
   ; netty_http_header_validation= None 
   ; csrf= None 
   ; insecure_ldap= None 
-  ; ldap_injection= None }
+  ; ldap_injection= None 
+  ; log_injection= None 
+  ; temp_dir_disclosure= None }
 
 
 (* Force lazy payloads and allow marshalling of the resulting value *)
@@ -167,7 +173,9 @@ let freeze t =
        ; netty_http_header_validation 
        ; csrf 
        ; insecure_ldap 
-       ; ldap_injection }
+       ; ldap_injection 
+       ; log_injection 
+       ; temp_dir_disclosure }
        [@warning "+missing-record-field-pattern"] ) =
     t
   in
@@ -195,6 +203,8 @@ let freeze t =
   freeze csrf ;
   freeze insecure_ldap ;
   freeze ldap_injection ;
+  freeze log_injection ;
+  freeze temp_dir_disclosure ;
   ()
 
 
@@ -301,6 +311,8 @@ module SQLite = struct
       ~csrf:data_of_sqlite_column
       ~insecure_ldap:data_of_sqlite_column
       ~ldap_injection:data_of_sqlite_column
+      ~log_injection:data_of_sqlite_column
+      ~temp_dir_disclosure:data_of_sqlite_column
 
 
   let eager_load stmt ~first_column = (make_eager first_column |> fst) stmt
@@ -362,5 +374,7 @@ module SQLite = struct
     ; netty_http_header_validation= load ~proc_uid NettyHttpHeaderValidationPayload 
     ; csrf= load ~proc_uid CsrfPayload 
     ; insecure_ldap= load ~proc_uid InsecureLdapPayload 
-    ; ldap_injection= load ~proc_uid LdapInjectionPayload }
+    ; ldap_injection= load ~proc_uid LdapInjectionPayload 
+    ; log_injection= load ~proc_uid LogInjectionPayload 
+    ; temp_dir_disclosure= load ~proc_uid TempDirDisclosurePayload }
 end

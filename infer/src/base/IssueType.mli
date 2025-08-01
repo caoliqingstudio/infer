@@ -215,6 +215,10 @@ val insecure_ldap_auth : t
 
 val ldap_injection : t
 
+val log_injection : t
+
+val temp_dir_local_information_disclosure : t
+
 val unsafe_deserialization : t
 
 val lockless_violation : t
