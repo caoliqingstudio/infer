@@ -29,6 +29,7 @@ type t =
   ; starvation: StarvationDomain.summary SafeLazy.t option
   ; unsafe_deserialization: Labs.UnsafeDeserializationDomain.t SafeLazy.t option
   ; zip_slip: ZipSlipDomain.summary SafeLazy.t option
+  ; insecure_cookie: Labs.InsecureCookieDomain.t SafeLazy.t option
   ; netty_http_header_validation: Labs.NettyHttpHeaderValidationDomain.t SafeLazy.t option }
 [@@deriving fields]
 
@@ -80,6 +81,7 @@ let all_fields =
     ~starvation:(fun f -> mk f Starvation StarvationDomain.pp_summary)
     ~unsafe_deserialization:(fun f -> mk f UnsafeDeserialization Labs.UnsafeDeserializationDomain.pp)
     ~zip_slip:(fun f -> mk f ZipSlipPayload ZipSlipDomain.pp)
+    ~insecure_cookie:(fun f -> mk f InsecureCookiePayload Labs.InsecureCookieDomain.pp)
     ~netty_http_header_validation:(fun f -> mk f NettyHttpHeaderValidationPayload Labs.NettyHttpHeaderValidationDomain.pp)
   (* sorted to help serialization, see {!SQLite.serialize} below *)
   |> List.sort ~compare:(fun (F {payload_id= payload_id1}) (F {payload_id= payload_id2}) ->
@@ -127,6 +129,7 @@ let empty =
   ; starvation= None
   ; unsafe_deserialization= None
   ; zip_slip= None
+  ; insecure_cookie= None
   ; netty_http_header_validation= None }
 
 
@@ -151,6 +154,7 @@ let freeze t =
        ; starvation
        ; unsafe_deserialization
        ; zip_slip
+       ; insecure_cookie
        ; netty_http_header_validation }
        [@warning "+missing-record-field-pattern"] ) =
     t
@@ -174,6 +178,7 @@ let freeze t =
   freeze lineage_shape ;
   freeze starvation ;
   freeze zip_slip ;
+  freeze insecure_cookie ;
   freeze netty_http_header_validation ;
   ()
 
@@ -276,6 +281,7 @@ module SQLite = struct
       ~lineage_shape:data_of_sqlite_column ~starvation:data_of_sqlite_column
       ~unsafe_deserialization:data_of_sqlite_column
       ~zip_slip:data_of_sqlite_column
+      ~insecure_cookie:data_of_sqlite_column
       ~netty_http_header_validation:data_of_sqlite_column
 
 
@@ -334,5 +340,6 @@ module SQLite = struct
     ; starvation= load ~proc_uid Starvation
     ; unsafe_deserialization= load ~proc_uid UnsafeDeserialization
     ; zip_slip= load ~proc_uid ZipSlipPayload
+    ; insecure_cookie= load ~proc_uid InsecureCookiePayload
     ; netty_http_header_validation= load ~proc_uid NettyHttpHeaderValidationPayload }
 end

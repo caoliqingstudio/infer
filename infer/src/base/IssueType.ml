@@ -654,6 +654,11 @@ let zip_slip =
     ~user_documentation:"Zip Slip vulnerability: Archive entry name used unsafely in file operations"
 
 
+let insecure_cookie =
+  register ~category:SensitiveDataFlow ~id:"INSECURE_COOKIE" Error InsecureCookie
+    ~user_documentation:"Cookie added to HttpServletResponse without 'secure' flag being set"
+
+
 let netty_http_header_validation_disabled =
   register ~category:SensitiveDataFlow ~id:"NETTY_HTTP_HEADER_VALIDATION_DISABLED" Error NettyHttpHeaderValidation
     ~user_documentation:"Netty HTTP header validation disabled: validateHeaders parameter set to false"

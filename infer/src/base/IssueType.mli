@@ -205,6 +205,8 @@ val lab_resource_leak : t
 
 val zip_slip : t
 
+val insecure_cookie : t
+
 val netty_http_header_validation_disabled : t
 
 val unsafe_deserialization : t

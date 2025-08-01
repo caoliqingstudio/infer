@@ -39,6 +39,7 @@ type t =
   | Topl
   | UnsafeDeserialization
   | ZipSlip
+  | InsecureCookie
   | NettyHttpHeaderValidation
 [@@deriving compare, equal, enumerate]
 
@@ -378,7 +379,7 @@ let config_unsafe checker =
       ; enabled_by_default= false
       ; activates= [Pulse] }
   | UnsafeDeserialization ->
-      { id= "my-unsafe-deserialization-only"
+      { id= "my-unsafe-deserialization"
       ; kind= UserFacing {title= "Unsafe Deserialization"; markdown_body= "Detects unsafe deserialization of user-controlled data (CWE-502)"}
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
@@ -392,6 +393,15 @@ let config_unsafe checker =
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
           "Detect Zip Slip vulnerabilities where archive entries are extracted without proper path validation"
+      ; cli_flags= Some {deprecated= []; show_in_help= true}
+      ; enabled_by_default= false
+      ; activates= [] }
+  | InsecureCookie ->
+      { id= "my-insecure-cookie-only"
+      ; kind= UserFacing {title= "Insecure Cookie"; markdown_body= "Detects insecure cookie vulnerabilities (CWE-614)"}
+      ; support= mk_support_func ~java:ExperimentalSupport ()
+      ; short_documentation=
+          "Detect cookies added to HttpServletResponse without proper 'secure' flag configuration"
       ; cli_flags= Some {deprecated= []; show_in_help= true}
       ; enabled_by_default= false
       ; activates= [] }

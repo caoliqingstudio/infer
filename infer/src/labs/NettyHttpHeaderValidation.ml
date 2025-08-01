@@ -7,6 +7,7 @@
 
 open! IStd
 module F = Format
+module L = Logging
 
 module TransferFunctions (CFG : ProcCfg.S) = struct
   module CFG = CFG

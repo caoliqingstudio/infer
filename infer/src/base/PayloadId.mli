@@ -28,6 +28,7 @@ type t =
   | Starvation
   | UnsafeDeserialization
   | ZipSlipPayload
+  | InsecureCookiePayload
   | NettyHttpHeaderValidationPayload
 [@@deriving compare, equal, hash, show, variants]
 

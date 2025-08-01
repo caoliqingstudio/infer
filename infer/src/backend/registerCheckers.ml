@@ -158,6 +158,10 @@ let all_checkers =
     ; callbacks=
         [ ( interprocedural Payloads.Fields.zip_slip ZipSlip.checker
           , Java ) ] }
+  ; { checker= InsecureCookie
+    ; callbacks=
+        [ ( interprocedural Payloads.Fields.insecure_cookie Labs.InsecureCookie.checker
+          , Java ) ] }
   ; { checker= NettyHttpHeaderValidation
     ; callbacks=
         [ ( interprocedural Payloads.Fields.netty_http_header_validation Labs.NettyHttpHeaderValidation.checker

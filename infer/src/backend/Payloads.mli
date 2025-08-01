@@ -38,6 +38,7 @@ include sig
     ; starvation: StarvationDomain.summary SafeLazy.t option
     ; unsafe_deserialization: Labs.UnsafeDeserializationDomain.t SafeLazy.t option
     ; zip_slip: ZipSlipDomain.summary SafeLazy.t option
+    ; insecure_cookie: Labs.InsecureCookieDomain.t SafeLazy.t option
     ; netty_http_header_validation: Labs.NettyHttpHeaderValidationDomain.t SafeLazy.t option }
   [@@deriving fields, yojson_of]
 end

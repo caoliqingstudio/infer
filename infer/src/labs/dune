@@ -6,6 +6,17 @@
 (library
  (name Labs)
  (public_name infer.Labs)
+ (modules
+  ResourceLeakDomain
+  ResourceLeaks
+  UnsafeDeserialization
+  UnsafeDeserializationDomain
+  NettyHttpHeaderValidation
+  NettyHttpHeaderValidationDomain
+  ZipSlip
+  ZipSlipDomain
+  InsecureCookie
+  InsecureCookieDomain)
  (flags
   (:standard
    -open

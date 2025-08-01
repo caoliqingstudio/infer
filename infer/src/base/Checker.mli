@@ -38,6 +38,7 @@ type t =
   | Topl
   | UnsafeDeserialization
   | ZipSlip
+  | InsecureCookie
   | NettyHttpHeaderValidation
 [@@deriving equal, enumerate]
 

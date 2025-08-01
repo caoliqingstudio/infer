@@ -27,6 +27,7 @@ type t =
   | Starvation
   | UnsafeDeserialization
   | ZipSlipPayload
+  | InsecureCookiePayload
   | NettyHttpHeaderValidationPayload
 [@@deriving compare, equal, hash, show, variants]
 
@@ -72,5 +73,7 @@ let to_checker payload_id : Checker.t =
       UnsafeDeserialization
   | ZipSlipPayload ->
       ZipSlip
+  | InsecureCookiePayload ->
+      InsecureCookie
   | NettyHttpHeaderValidationPayload ->
       NettyHttpHeaderValidation
