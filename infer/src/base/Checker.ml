@@ -37,6 +37,9 @@ type t =
   | SelfInBlock
   | Starvation
   | Topl
+  | UnsafeDeserialization
+  | ZipSlip
+  | NettyHttpHeaderValidation
 [@@deriving compare, equal, enumerate]
 
 type support = NoSupport | ExperimentalSupport | Support
@@ -374,6 +377,34 @@ let config_unsafe checker =
       ; cli_flags= Some {deprecated= []; show_in_help= true}
       ; enabled_by_default= false
       ; activates= [Pulse] }
+  | UnsafeDeserialization ->
+      { id= "my-unsafe-deserialization-only"
+      ; kind= UserFacing {title= "Unsafe Deserialization"; markdown_body= "Detects unsafe deserialization of user-controlled data (CWE-502)"}
+      ; support= mk_support_func ~java:ExperimentalSupport ()
+      ; short_documentation=
+          "Detect unsafe deserialization vulnerabilities where user-controlled data is deserialized without validation"
+      ; cli_flags= Some {deprecated= []; show_in_help= true}
+      ; enabled_by_default= false
+      ; activates= [] }
+  | ZipSlip ->
+      { id= "my-zip-slip"
+      ; kind= UserFacing {title= "Zip Slip"; markdown_body= "Detect Zip Slip vulnerabilities"}
+      ; support= mk_support_func ~java:ExperimentalSupport ()
+      ; short_documentation=
+          "Detect Zip Slip vulnerabilities where archive entries are extracted without proper path validation"
+      ; cli_flags= Some {deprecated= []; show_in_help= true}
+      ; enabled_by_default= false
+      ; activates= [] }
+  | NettyHttpHeaderValidation ->
+      { id= "my-netty-http-header-validation"
+      ; kind= UserFacing {title= "Netty HTTP Header Validation"; 
+                         markdown_body= "Detect disabled Netty HTTP header validation"}
+      ; support= mk_support_func ~java:ExperimentalSupport ()
+      ; short_documentation=
+          "Detect when Netty HTTP classes are instantiated with header validation disabled (validateHeaders=false)"
+      ; cli_flags= Some {deprecated= []; show_in_help= true}
+      ; enabled_by_default= false
+      ; activates= [] }
   | SILValidation ->
       { id= "sil-validation"
       ; kind= UserFacing {title= "SIL validation"; markdown_body= ""}

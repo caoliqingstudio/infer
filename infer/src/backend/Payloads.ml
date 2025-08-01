@@ -26,7 +26,10 @@ type t =
   ; siof: SiofDomain.Summary.t SafeLazy.t option
   ; lineage: Lineage.Summary.t SafeLazy.t option
   ; lineage_shape: LineageShape.Summary.t SafeLazy.t option
-  ; starvation: StarvationDomain.summary SafeLazy.t option }
+  ; starvation: StarvationDomain.summary SafeLazy.t option
+  ; unsafe_deserialization: Labs.UnsafeDeserializationDomain.t SafeLazy.t option
+  ; zip_slip: ZipSlipDomain.summary SafeLazy.t option
+  ; netty_http_header_validation: Labs.NettyHttpHeaderValidationDomain.t SafeLazy.t option }
 [@@deriving fields]
 
 let yojson_of_t {pulse} =
@@ -75,6 +78,9 @@ let all_fields =
     ~lineage:(fun f -> mk f Lineage Lineage.Summary.pp)
     ~lineage_shape:(fun f -> mk f LineageShape LineageShape.Summary.pp)
     ~starvation:(fun f -> mk f Starvation StarvationDomain.pp_summary)
+    ~unsafe_deserialization:(fun f -> mk f UnsafeDeserialization Labs.UnsafeDeserializationDomain.pp)
+    ~zip_slip:(fun f -> mk f ZipSlipPayload ZipSlipDomain.pp)
+    ~netty_http_header_validation:(fun f -> mk f NettyHttpHeaderValidationPayload Labs.NettyHttpHeaderValidationDomain.pp)
   (* sorted to help serialization, see {!SQLite.serialize} below *)
   |> List.sort ~compare:(fun (F {payload_id= payload_id1}) (F {payload_id= payload_id2}) ->
          Int.compare
@@ -118,7 +124,10 @@ let empty =
   ; siof= None
   ; lineage= None
   ; lineage_shape= None
-  ; starvation= None }
+  ; starvation= None
+  ; unsafe_deserialization= None
+  ; zip_slip= None
+  ; netty_http_header_validation= None }
 
 
 (* Force lazy payloads and allow marshalling of the resulting value *)
@@ -139,7 +148,10 @@ let freeze t =
        ; siof
        ; lineage
        ; lineage_shape
-       ; starvation }
+       ; starvation
+       ; unsafe_deserialization
+       ; zip_slip
+       ; netty_http_header_validation }
        [@warning "+missing-record-field-pattern"] ) =
     t
   in
@@ -161,6 +173,8 @@ let freeze t =
   freeze lineage ;
   freeze lineage_shape ;
   freeze starvation ;
+  freeze zip_slip ;
+  freeze netty_http_header_validation ;
   ()
 
 
@@ -260,6 +274,9 @@ module SQLite = struct
       ~lab_resource_leaks:data_of_sqlite_column ~scope_leakage:data_of_sqlite_column
       ~siof:data_of_sqlite_column ~lineage:data_of_sqlite_column
       ~lineage_shape:data_of_sqlite_column ~starvation:data_of_sqlite_column
+      ~unsafe_deserialization:data_of_sqlite_column
+      ~zip_slip:data_of_sqlite_column
+      ~netty_http_header_validation:data_of_sqlite_column
 
 
   let eager_load stmt ~first_column = (make_eager first_column |> fst) stmt
@@ -314,5 +331,8 @@ module SQLite = struct
     ; siof= load ~proc_uid SIOF
     ; lineage= load ~proc_uid Lineage
     ; lineage_shape= load ~proc_uid LineageShape
-    ; starvation= load ~proc_uid Starvation }
+    ; starvation= load ~proc_uid Starvation
+    ; unsafe_deserialization= load ~proc_uid UnsafeDeserialization
+    ; zip_slip= load ~proc_uid ZipSlipPayload
+    ; netty_http_header_validation= load ~proc_uid NettyHttpHeaderValidationPayload }
 end

@@ -36,6 +36,9 @@ type t =
   | SelfInBlock
   | Starvation
   | Topl
+  | UnsafeDeserialization
+  | ZipSlip
+  | NettyHttpHeaderValidation
 [@@deriving equal, enumerate]
 
 (** per-language support for each checker *)

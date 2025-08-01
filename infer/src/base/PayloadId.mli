@@ -26,6 +26,9 @@ type t =
   | Lineage
   | LineageShape
   | Starvation
+  | UnsafeDeserialization
+  | ZipSlipPayload
+  | NettyHttpHeaderValidationPayload
 [@@deriving compare, equal, hash, show, variants]
 
 val database_fields : string list

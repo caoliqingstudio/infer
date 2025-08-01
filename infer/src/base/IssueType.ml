@@ -649,6 +649,21 @@ let lab_resource_leak =
     ~user_documentation:"Toy issue."
 
 
+let zip_slip =
+  register ~category:SensitiveDataFlow ~id:"ZIP_SLIP" Error ZipSlip
+    ~user_documentation:"Zip Slip vulnerability: Archive entry name used unsafely in file operations"
+
+
+let netty_http_header_validation_disabled =
+  register ~category:SensitiveDataFlow ~id:"NETTY_HTTP_HEADER_VALIDATION_DISABLED" Error NettyHttpHeaderValidation
+    ~user_documentation:"Netty HTTP header validation disabled: validateHeaders parameter set to false"
+
+
+let unsafe_deserialization =
+  register ~category:SensitiveDataFlow ~id:"UNSAFE_DESERIALIZATION" Error UnsafeDeserialization
+    ~user_documentation:"Unsafe deserialization of user-controlled data may allow arbitrary code execution"
+
+
 let lock_consistency_violation =
   register Warning ~id:"LOCK_CONSISTENCY_VIOLATION" ~category:Concurrency RacerD
     ~user_documentation:[%blob "./documentation/issues/LOCK_CONSISTENCY_VIOLATION.md"]

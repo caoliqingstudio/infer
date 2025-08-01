@@ -35,7 +35,10 @@ include sig
     ; siof: SiofDomain.Summary.t SafeLazy.t option
     ; lineage: Lineage.Summary.t SafeLazy.t option
     ; lineage_shape: LineageShape.Summary.t SafeLazy.t option
-    ; starvation: StarvationDomain.summary SafeLazy.t option }
+    ; starvation: StarvationDomain.summary SafeLazy.t option
+    ; unsafe_deserialization: Labs.UnsafeDeserializationDomain.t SafeLazy.t option
+    ; zip_slip: ZipSlipDomain.summary SafeLazy.t option
+    ; netty_http_header_validation: Labs.NettyHttpHeaderValidationDomain.t SafeLazy.t option }
   [@@deriving fields, yojson_of]
 end
 

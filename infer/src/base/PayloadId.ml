@@ -25,6 +25,9 @@ type t =
   | Lineage
   | LineageShape
   | Starvation
+  | UnsafeDeserialization
+  | ZipSlipPayload
+  | NettyHttpHeaderValidationPayload
 [@@deriving compare, equal, hash, show, variants]
 
 let database_fields = List.map ~f:fst Variants.descriptions
@@ -65,3 +68,9 @@ let to_checker payload_id : Checker.t =
       LineageShape
   | Starvation ->
       Starvation
+  | UnsafeDeserialization ->
+      UnsafeDeserialization
+  | ZipSlipPayload ->
+      ZipSlip
+  | NettyHttpHeaderValidationPayload ->
+      NettyHttpHeaderValidation

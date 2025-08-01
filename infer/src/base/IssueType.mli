@@ -203,6 +203,12 @@ val ipc_on_ui_thread : t
 
 val lab_resource_leak : t
 
+val zip_slip : t
+
+val netty_http_header_validation_disabled : t
+
+val unsafe_deserialization : t
+
 val lockless_violation : t
 
 val lock_consistency_violation : t

@@ -154,6 +154,18 @@ let all_checkers =
                interprocedural later on *)
             interprocedural Payloads.Fields.lab_resource_leaks ResourceLeaks.checker
           , Java ) ] }
+  ; { checker= ZipSlip
+    ; callbacks=
+        [ ( interprocedural Payloads.Fields.zip_slip ZipSlip.checker
+          , Java ) ] }
+  ; { checker= NettyHttpHeaderValidation
+    ; callbacks=
+        [ ( interprocedural Payloads.Fields.netty_http_header_validation Labs.NettyHttpHeaderValidation.checker
+          , Java ) ] }
+  ; { checker= UnsafeDeserialization
+    ; callbacks=
+        [ ( interprocedural Payloads.Fields.unsafe_deserialization Labs.UnsafeDeserialization.checker
+          , Java ) ] }
   ; { checker= RacerD
     ; callbacks=
         (let racerd_proc = interprocedural Payloads.Fields.racerd RacerDProcAnalysis.analyze in
