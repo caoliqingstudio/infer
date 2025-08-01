@@ -174,6 +174,10 @@ let all_checkers =
     ; callbacks=
         [ ( interprocedural Payloads.Fields.insecure_ldap Labs.InsecureLdap.checker
           , Java ) ] }
+  ; { checker= LdapInjection
+    ; callbacks=
+        [ ( interprocedural Payloads.Fields.ldap_injection Labs.LdapInjection.checker
+          , Java ) ] }
   ; { checker= UnsafeDeserialization
     ; callbacks=
         [ ( interprocedural Payloads.Fields.unsafe_deserialization Labs.UnsafeDeserialization.checker

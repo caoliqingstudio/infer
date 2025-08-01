@@ -674,6 +674,11 @@ let insecure_ldap_auth =
     ~user_documentation:"LDAP authentication using ldap:// URL with basic authentication without SSL encryption"
 
 
+let ldap_injection =
+  register ~category:SensitiveDataFlow ~id:"LDAP_INJECTION" Error LdapInjection
+    ~user_documentation:"LDAP query built from user-controlled sources without proper sanitization"
+
+
 let unsafe_deserialization =
   register ~category:SensitiveDataFlow ~id:"UNSAFE_DESERIALIZATION" Error UnsafeDeserialization
     ~user_documentation:"Unsafe deserialization of user-controlled data may allow arbitrary code execution"

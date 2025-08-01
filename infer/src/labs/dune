@@ -20,7 +20,9 @@
   Csrf
   CsrfDomain
   InsecureLdap
-  InsecureLdapDomain)
+  InsecureLdapDomain
+  LdapInjection
+  LdapInjectionDomain)
  (flags
   (:standard
    -open

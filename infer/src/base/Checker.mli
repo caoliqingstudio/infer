@@ -42,6 +42,7 @@ type t =
   | NettyHttpHeaderValidation
   | Csrf
   | InsecureLdap
+  | LdapInjection
 [@@deriving equal, enumerate]
 
 (** per-language support for each checker *)

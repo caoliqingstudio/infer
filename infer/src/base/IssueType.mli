@@ -213,6 +213,8 @@ val csrf_vulnerability : t
 
 val insecure_ldap_auth : t
 
+val ldap_injection : t
+
 val unsafe_deserialization : t
 
 val lockless_violation : t

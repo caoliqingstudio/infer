@@ -31,6 +31,7 @@ type t =
   | NettyHttpHeaderValidationPayload
   | CsrfPayload
   | InsecureLdapPayload
+  | LdapInjectionPayload
 [@@deriving compare, equal, hash, show, variants]
 
 let database_fields = List.map ~f:fst Variants.descriptions
@@ -83,3 +84,5 @@ let to_checker payload_id : Checker.t =
       Csrf
   | InsecureLdapPayload ->
       InsecureLdap
+  | LdapInjectionPayload ->
+      LdapInjection

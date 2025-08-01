@@ -32,7 +32,8 @@ type t =
   ; insecure_cookie: Labs.InsecureCookieDomain.t SafeLazy.t option
   ; netty_http_header_validation: Labs.NettyHttpHeaderValidationDomain.t SafeLazy.t option 
   ; csrf: Labs.CsrfDomain.summary SafeLazy.t option 
-  ; insecure_ldap: Labs.InsecureLdapDomain.summary SafeLazy.t option }
+  ; insecure_ldap: Labs.InsecureLdapDomain.summary SafeLazy.t option 
+  ; ldap_injection: Labs.LdapInjectionDomain.summary SafeLazy.t option }
 [@@deriving fields]
 
 let yojson_of_t {pulse} =
@@ -87,6 +88,7 @@ let all_fields =
     ~netty_http_header_validation:(fun f -> mk f NettyHttpHeaderValidationPayload Labs.NettyHttpHeaderValidationDomain.pp)
     ~csrf:(fun f -> mk f CsrfPayload Labs.CsrfDomain.pp)
     ~insecure_ldap:(fun f -> mk f InsecureLdapPayload Labs.InsecureLdapDomain.pp)
+    ~ldap_injection:(fun f -> mk f LdapInjectionPayload Labs.LdapInjectionDomain.pp)
   (* sorted to help serialization, see {!SQLite.serialize} below *)
   |> List.sort ~compare:(fun (F {payload_id= payload_id1}) (F {payload_id= payload_id2}) ->
          Int.compare
@@ -136,7 +138,8 @@ let empty =
   ; insecure_cookie= None
   ; netty_http_header_validation= None 
   ; csrf= None 
-  ; insecure_ldap= None }
+  ; insecure_ldap= None 
+  ; ldap_injection= None }
 
 
 (* Force lazy payloads and allow marshalling of the resulting value *)
@@ -163,7 +166,8 @@ let freeze t =
        ; insecure_cookie
        ; netty_http_header_validation 
        ; csrf 
-       ; insecure_ldap }
+       ; insecure_ldap 
+       ; ldap_injection }
        [@warning "+missing-record-field-pattern"] ) =
     t
   in
@@ -190,6 +194,7 @@ let freeze t =
   freeze netty_http_header_validation ;
   freeze csrf ;
   freeze insecure_ldap ;
+  freeze ldap_injection ;
   ()
 
 
@@ -295,6 +300,7 @@ module SQLite = struct
       ~netty_http_header_validation:data_of_sqlite_column
       ~csrf:data_of_sqlite_column
       ~insecure_ldap:data_of_sqlite_column
+      ~ldap_injection:data_of_sqlite_column
 
 
   let eager_load stmt ~first_column = (make_eager first_column |> fst) stmt
@@ -355,5 +361,6 @@ module SQLite = struct
     ; insecure_cookie= load ~proc_uid InsecureCookiePayload
     ; netty_http_header_validation= load ~proc_uid NettyHttpHeaderValidationPayload 
     ; csrf= load ~proc_uid CsrfPayload 
-    ; insecure_ldap= load ~proc_uid InsecureLdapPayload }
+    ; insecure_ldap= load ~proc_uid InsecureLdapPayload 
+    ; ldap_injection= load ~proc_uid LdapInjectionPayload }
 end

@@ -43,6 +43,7 @@ type t =
   | NettyHttpHeaderValidation
   | Csrf
   | InsecureLdap
+  | LdapInjection
 [@@deriving compare, equal, enumerate]
 
 type support = NoSupport | ExperimentalSupport | Support
@@ -432,6 +433,15 @@ let config_unsafe checker =
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
           "Detect LDAP authentication using ldap:// URLs with basic authentication without SSL encryption"
+      ; cli_flags= Some {deprecated= []; show_in_help= true}
+      ; enabled_by_default= false
+      ; activates= [] }
+  | LdapInjection ->
+      { id= "my-ldap-injection-only"
+      ; kind= UserFacing {title= "LDAP Injection"; markdown_body= "Detects LDAP queries built from user-controlled sources (CWE-090)"}
+      ; support= mk_support_func ~java:ExperimentalSupport ()
+      ; short_documentation=
+          "Detect LDAP queries constructed using user input without proper sanitization"
       ; cli_flags= Some {deprecated= []; show_in_help= true}
       ; enabled_by_default= false
       ; activates= [] }

@@ -32,6 +32,7 @@ type t =
   | NettyHttpHeaderValidationPayload
   | CsrfPayload
   | InsecureLdapPayload
+  | LdapInjectionPayload
 [@@deriving compare, equal, hash, show, variants]
 
 val database_fields : string list
