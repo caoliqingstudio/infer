@@ -704,6 +704,11 @@ let user_controlled_query =
     ~user_documentation:"SQL query built from user-controlled sources"
 
 
+let xxe =
+  register ~category:SensitiveDataFlow ~id:"XXE" Error Xxe
+    ~user_documentation:"XML parsing depends on user-controlled data without guarding against external entity expansion"
+
+
 let unsafe_deserialization =
   register ~category:SensitiveDataFlow ~id:"UNSAFE_DESERIALIZATION" Error UnsafeDeserialization
     ~user_documentation:"Unsafe deserialization of user-controlled data may allow arbitrary code execution"

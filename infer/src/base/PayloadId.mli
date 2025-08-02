@@ -38,6 +38,7 @@ type t =
   | TempDirDisclosurePayload
   | QueryConcatenationPayload
   | UserControlledQueryPayload
+  | XxePayload
 [@@deriving compare, equal, hash, show, variants]
 
 val database_fields : string list

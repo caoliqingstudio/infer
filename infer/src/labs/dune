@@ -32,7 +32,9 @@
   QueryConcatenation
   QueryConcatenationDomain
   UserControlledQuery
-  UserControlledQueryDomain)
+  UserControlledQueryDomain
+  Xxe
+  XxeDomain)
  (flags
   (:standard
    -open

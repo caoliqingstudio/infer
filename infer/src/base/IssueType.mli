@@ -225,6 +225,8 @@ val query_concatenation : t
 
 val user_controlled_query : t
 
+val xxe : t
+
 val unsafe_deserialization : t
 
 val lockless_violation : t

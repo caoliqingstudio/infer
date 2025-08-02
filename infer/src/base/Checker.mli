@@ -48,6 +48,7 @@ type t =
   | TempDirDisclosure
   | QueryConcatenation
   | UserControlledQuery
+  | Xxe
 [@@deriving equal, enumerate]
 
 (** per-language support for each checker *)

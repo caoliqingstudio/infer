@@ -47,7 +47,8 @@ include sig
     ; partial_path_traversal: Labs.PartialPathTraversalDomain.summary SafeLazy.t option 
     ; temp_dir_disclosure: Labs.TempDirDisclosureDomain.summary SafeLazy.t option
     ; query_concatenation: Labs.QueryConcatenationDomain.t SafeLazy.t option
-    ; user_controlled_query: Labs.UserControlledQueryDomain.t SafeLazy.t option }
+    ; user_controlled_query: Labs.UserControlledQueryDomain.t SafeLazy.t option
+    ; xxe: Labs.XxeDomain.t SafeLazy.t option }
   [@@deriving fields, yojson_of]
 end
 

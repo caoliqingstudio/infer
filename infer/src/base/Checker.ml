@@ -49,6 +49,7 @@ type t =
   | TempDirDisclosure
   | QueryConcatenation
   | UserControlledQuery
+  | Xxe
 [@@deriving compare, equal, enumerate]
 
 type support = NoSupport | ExperimentalSupport | Support
@@ -492,6 +493,15 @@ let config_unsafe checker =
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
           "Detect SQL queries built from user-controlled data sources"
+      ; cli_flags= Some {deprecated= []; show_in_help= true}
+      ; enabled_by_default= false
+      ; activates= [] }
+  | Xxe ->
+      { id= "my-xxe-only"
+      ; kind= UserFacing {title= "XXE"; markdown_body= "Detects XML External Entity vulnerabilities in user-controlled data (CWE-611)"}
+      ; support= mk_support_func ~java:ExperimentalSupport ()
+      ; short_documentation=
+          "Detect XML parsing of user-controlled data without external entity protection"
       ; cli_flags= Some {deprecated= []; show_in_help= true}
       ; enabled_by_default= false
       ; activates= [] }

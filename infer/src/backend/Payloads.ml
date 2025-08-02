@@ -38,7 +38,8 @@ type t =
   ; partial_path_traversal: Labs.PartialPathTraversalDomain.summary SafeLazy.t option 
   ; temp_dir_disclosure: Labs.TempDirDisclosureDomain.summary SafeLazy.t option
   ; query_concatenation: Labs.QueryConcatenationDomain.t SafeLazy.t option
-  ; user_controlled_query: Labs.UserControlledQueryDomain.t SafeLazy.t option }
+  ; user_controlled_query: Labs.UserControlledQueryDomain.t SafeLazy.t option
+  ; xxe: Labs.XxeDomain.t SafeLazy.t option }
 [@@deriving fields]
 
 let yojson_of_t {pulse} =
@@ -99,6 +100,7 @@ let all_fields =
     ~temp_dir_disclosure:(fun f -> mk f TempDirDisclosurePayload Labs.TempDirDisclosureDomain.pp)
     ~query_concatenation:(fun f -> mk f QueryConcatenationPayload Labs.QueryConcatenationDomain.pp)
     ~user_controlled_query:(fun f -> mk f UserControlledQueryPayload Labs.UserControlledQueryDomain.pp)
+    ~xxe:(fun f -> mk f XxePayload Labs.XxeDomain.pp)
   (* sorted to help serialization, see {!SQLite.serialize} below *)
   |> List.sort ~compare:(fun (F {payload_id= payload_id1}) (F {payload_id= payload_id2}) ->
          Int.compare
@@ -154,7 +156,8 @@ let empty =
   ; partial_path_traversal= None 
   ; temp_dir_disclosure= None
   ; query_concatenation= None
-  ; user_controlled_query= None }
+  ; user_controlled_query= None
+  ; xxe= None }
 
 
 (* Force lazy payloads and allow marshalling of the resulting value *)
@@ -187,7 +190,8 @@ let freeze t =
        ; partial_path_traversal 
        ; temp_dir_disclosure
        ; query_concatenation
-       ; user_controlled_query }
+       ; user_controlled_query
+       ; xxe }
        [@warning "+missing-record-field-pattern"] ) =
     t
   in
@@ -220,6 +224,7 @@ let freeze t =
   freeze temp_dir_disclosure ;
   freeze query_concatenation ;
   freeze user_controlled_query ;
+  freeze xxe ;
   ()
 
 
@@ -331,6 +336,7 @@ module SQLite = struct
       ~temp_dir_disclosure:data_of_sqlite_column
       ~query_concatenation:data_of_sqlite_column
       ~user_controlled_query:data_of_sqlite_column
+      ~xxe:data_of_sqlite_column
 
 
   let eager_load stmt ~first_column = (make_eager first_column |> fst) stmt
@@ -397,5 +403,6 @@ module SQLite = struct
     ; partial_path_traversal= load ~proc_uid PartialPathTraversalPayload 
     ; temp_dir_disclosure= load ~proc_uid TempDirDisclosurePayload
     ; query_concatenation= load ~proc_uid QueryConcatenationPayload
-    ; user_controlled_query= load ~proc_uid UserControlledQueryPayload }
+    ; user_controlled_query= load ~proc_uid UserControlledQueryPayload
+    ; xxe= load ~proc_uid XxePayload }
 end
