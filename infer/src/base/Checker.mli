@@ -53,6 +53,7 @@ type t =
   | TrustBoundaryViolation
   | PathInjection
   | UrlRedirect
+  | WeakCrypto
 [@@deriving equal, enumerate]
 
 (** per-language support for each checker *)

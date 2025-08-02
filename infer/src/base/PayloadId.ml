@@ -42,6 +42,7 @@ type t =
   | TrustBoundaryViolationPayload
   | PathInjectionPayload
   | UrlRedirectPayload
+  | WeakCryptoPayload
 [@@deriving compare, equal, hash, show, variants]
 
 let database_fields = List.map ~f:fst Variants.descriptions
@@ -116,3 +117,5 @@ let to_checker payload_id : Checker.t =
       PathInjection
   | UrlRedirectPayload ->
       UrlRedirect
+  | WeakCryptoPayload ->
+      WeakCrypto

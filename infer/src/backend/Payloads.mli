@@ -52,7 +52,8 @@ include sig
     ; ssrf: Labs.SsrfDomain.t SafeLazy.t option
     ; trust_boundary_violation: Labs.TrustBoundaryViolationDomain.t SafeLazy.t option
     ; path_injection: Labs.PathInjectionDomain.t SafeLazy.t option
-    ; url_redirect: Labs.UrlRedirectDomain.t SafeLazy.t option }
+    ; url_redirect: Labs.UrlRedirectDomain.t SafeLazy.t option
+    ; weak_crypto: Labs.WeakCryptoDomain.t SafeLazy.t option }
   [@@deriving fields, yojson_of]
 end
 

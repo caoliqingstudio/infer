@@ -42,7 +42,9 @@
   PathInjection
   PathInjectionDomain
   UrlRedirect
-  UrlRedirectDomain)
+  UrlRedirectDomain
+  WeakCrypto
+  WeakCryptoDomain)
  (flags
   (:standard
    -open

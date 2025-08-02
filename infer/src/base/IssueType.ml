@@ -729,6 +729,11 @@ let url_redirection =
     ~user_documentation:"User-controlled data used in URL redirection without validation"
 
 
+let weak_cryptographic_algorithm =
+  register ~category:SensitiveDataFlow ~id:"WEAK_CRYPTOGRAPHIC_ALGORITHM" Error WeakCrypto
+    ~user_documentation:"Potentially weak or risky cryptographic algorithm used in cryptographic operations"
+
+
 let unsafe_deserialization =
   register ~category:SensitiveDataFlow ~id:"UNSAFE_DESERIALIZATION" Error UnsafeDeserialization
     ~user_documentation:"Unsafe deserialization of user-controlled data may allow arbitrary code execution"

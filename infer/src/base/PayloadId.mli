@@ -43,6 +43,7 @@ type t =
   | TrustBoundaryViolationPayload
   | PathInjectionPayload
   | UrlRedirectPayload
+  | WeakCryptoPayload
 [@@deriving compare, equal, hash, show, variants]
 
 val database_fields : string list

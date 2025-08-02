@@ -218,6 +218,10 @@ let all_checkers =
     ; callbacks=
         [ ( interprocedural Payloads.Fields.url_redirect Labs.UrlRedirect.checker
           , Java ) ] }
+  ; { checker= WeakCrypto
+    ; callbacks=
+        [ ( interprocedural Payloads.Fields.weak_crypto Labs.WeakCrypto.checker
+          , Java ) ] }
   ; { checker= UnsafeDeserialization
     ; callbacks=
         [ ( interprocedural Payloads.Fields.unsafe_deserialization Labs.UnsafeDeserialization.checker

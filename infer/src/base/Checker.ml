@@ -54,6 +54,7 @@ type t =
   | TrustBoundaryViolation
   | PathInjection
   | UrlRedirect
+  | WeakCrypto
 [@@deriving compare, equal, enumerate]
 
 type support = NoSupport | ExperimentalSupport | Support
@@ -410,7 +411,7 @@ let config_unsafe checker =
       ; enabled_by_default= false
       ; activates= [] }
   | InsecureCookie ->
-      { id= "my-insecure-cookie-only"
+      { id= "my-insecure-cookie"
       ; kind= UserFacing {title= "Insecure Cookie"; markdown_body= "Detects insecure cookie vulnerabilities (CWE-614)"}
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
@@ -429,7 +430,7 @@ let config_unsafe checker =
       ; enabled_by_default= false
       ; activates= [] }
   | Csrf ->
-      { id= "my-csrf-only"
+      { id= "my-csrf"
       ; kind= UserFacing {title= "CSRF Protection"; markdown_body= "Detects HTTP request types unprotected from CSRF (CWE-352)"}
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
@@ -438,7 +439,7 @@ let config_unsafe checker =
       ; enabled_by_default= false
       ; activates= [] }
   | InsecureLdap ->
-      { id= "my-insecure-ldap-only"
+      { id= "my-insecure-ldap"
       ; kind= UserFacing {title= "Insecure LDAP Authentication"; markdown_body= "Detects insecure LDAP authentication vulnerabilities (CWE-522/CWE-319)"}
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
@@ -447,7 +448,7 @@ let config_unsafe checker =
       ; enabled_by_default= false
       ; activates= [] }
   | LdapInjection ->
-      { id= "my-ldap-injection-only"
+      { id= "my-ldap-injection"
       ; kind= UserFacing {title= "LDAP Injection"; markdown_body= "Detects LDAP queries built from user-controlled sources (CWE-090)"}
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
@@ -456,7 +457,7 @@ let config_unsafe checker =
       ; enabled_by_default= false
       ; activates= [] }
   | LogInjection ->
-      { id= "my-log-injection-only"
+      { id= "my-log-injection"
       ; kind= UserFacing {title= "Log Injection"; markdown_body= "Detects log entries built from user-controlled sources (CWE-117)"}
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
@@ -465,7 +466,7 @@ let config_unsafe checker =
       ; enabled_by_default= false
       ; activates= [] }
   | PartialPathTraversal ->
-      { id= "my-partial-path-traversal-only"
+      { id= "my-partial-path-traversal"
       ; kind= UserFacing {title= "Partial Path Traversal"; markdown_body= "Detects partial path traversal vulnerabilities (CWE-023)"}
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
@@ -474,7 +475,7 @@ let config_unsafe checker =
       ; enabled_by_default= false
       ; activates= [] }
   | TempDirDisclosure ->
-      { id= "my-temp-dir-disclosure-only"
+      { id= "my-temp-dir-disclosure"
       ; kind= UserFacing {title= "Temp Directory Information Disclosure"; markdown_body= "Detects local information disclosure in temporary directories (CWE-200)"}
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
@@ -483,7 +484,7 @@ let config_unsafe checker =
       ; enabled_by_default= false
       ; activates= [] }
   | QueryConcatenation ->
-      { id= "my-query-concatenation-only"
+      { id= "my-query-concatenation"
       ; kind= UserFacing {title= "Query Concatenation"; markdown_body= "Detects SQL injection through query concatenation (CWE-089)"}
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
@@ -492,7 +493,7 @@ let config_unsafe checker =
       ; enabled_by_default= false
       ; activates= [] }
   | UserControlledQuery ->
-      { id= "my-user-controlled-query-only"
+      { id= "my-user-controlled-query"
       ; kind= UserFacing {title= "User Controlled Query"; markdown_body= "Detects SQL injection from user-controlled sources (CWE-089)"}
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
@@ -501,7 +502,7 @@ let config_unsafe checker =
       ; enabled_by_default= false
       ; activates= [] }
   | Xxe ->
-      { id= "my-xxe-only"
+      { id= "my-xxe"
       ; kind= UserFacing {title= "XXE"; markdown_body= "Detects XML External Entity vulnerabilities in user-controlled data (CWE-611)"}
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
@@ -510,7 +511,7 @@ let config_unsafe checker =
       ; enabled_by_default= false
       ; activates= [] }
   | Ssrf ->
-      { id= "my-ssrf-only"
+      { id= "my-ssrf"
       ; kind= UserFacing {title= "SSRF"; markdown_body= "Detects Server-Side Request Forgery vulnerabilities from user-controlled URLs (CWE-918)"}
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
@@ -519,7 +520,7 @@ let config_unsafe checker =
       ; enabled_by_default= false
       ; activates= [] }
   | TrustBoundaryViolation ->
-      { id= "my-trust-boundary-violation-only"
+      { id= "my-trust-boundary-violation"
       ; kind= UserFacing {title= "Trust Boundary Violation"; markdown_body= "Detects trust boundary violations when untrusted data is stored in trusted contexts (CWE-501)"}
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
@@ -528,7 +529,7 @@ let config_unsafe checker =
       ; enabled_by_default= false
       ; activates= [] }
   | PathInjection ->
-      { id= "my-path-injection-only"
+      { id= "my-path-injection"
       ; kind= UserFacing {title= "Path Injection"; markdown_body= "Detects path injection vulnerabilities when user-controlled data is used in file paths (CWE-022)"}
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
@@ -537,11 +538,20 @@ let config_unsafe checker =
       ; enabled_by_default= false
       ; activates= [] }
   | UrlRedirect ->
-      { id= "my-url-redirect-only"
+      { id= "my-url-redirect"
       ; kind= UserFacing {title= "URL Redirection"; markdown_body= "Detects URL redirection vulnerabilities from remote sources (CWE-601)"}
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
           "Detect when user-controlled data is used in URL redirection without validation"
+      ; cli_flags= Some {deprecated= []; show_in_help= true}
+      ; enabled_by_default= false
+      ; activates= [] }
+  | WeakCrypto ->
+      { id= "my-weak-crypto"
+      ; kind= UserFacing {title= "Weak Cryptographic Algorithm"; markdown_body= "Detects use of potentially broken or risky cryptographic algorithms (CWE-327, CWE-328)"}
+      ; support= mk_support_func ~java:ExperimentalSupport ()
+      ; short_documentation=
+          "Detect when potentially weak cryptographic algorithms are used in cryptographic API calls"
       ; cli_flags= Some {deprecated= []; show_in_help= true}
       ; enabled_by_default= false
       ; activates= [] }

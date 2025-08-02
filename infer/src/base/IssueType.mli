@@ -235,6 +235,8 @@ val path_injection : t
 
 val url_redirection : t
 
+val weak_cryptographic_algorithm : t
+
 val unsafe_deserialization : t
 
 val lockless_violation : t

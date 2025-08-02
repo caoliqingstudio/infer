@@ -43,7 +43,8 @@ type t =
   ; ssrf: Labs.SsrfDomain.t SafeLazy.t option
   ; trust_boundary_violation: Labs.TrustBoundaryViolationDomain.t SafeLazy.t option
   ; path_injection: Labs.PathInjectionDomain.t SafeLazy.t option
-  ; url_redirect: Labs.UrlRedirectDomain.t SafeLazy.t option }
+  ; url_redirect: Labs.UrlRedirectDomain.t SafeLazy.t option
+  ; weak_crypto: Labs.WeakCryptoDomain.t SafeLazy.t option }
 [@@deriving fields]
 
 let yojson_of_t {pulse} =
@@ -109,6 +110,7 @@ let all_fields =
     ~trust_boundary_violation:(fun f -> mk f TrustBoundaryViolationPayload Labs.TrustBoundaryViolationDomain.pp)
     ~path_injection:(fun f -> mk f PathInjectionPayload Labs.PathInjectionDomain.pp)
     ~url_redirect:(fun f -> mk f UrlRedirectPayload Labs.UrlRedirectDomain.pp)
+    ~weak_crypto:(fun f -> mk f WeakCryptoPayload Labs.WeakCryptoDomain.pp)
   (* sorted to help serialization, see {!SQLite.serialize} below *)
   |> List.sort ~compare:(fun (F {payload_id= payload_id1}) (F {payload_id= payload_id2}) ->
          Int.compare
@@ -169,7 +171,8 @@ let empty =
   ; ssrf= None
   ; trust_boundary_violation= None
   ; path_injection= None
-  ; url_redirect= None }
+  ; url_redirect= None
+  ; weak_crypto= None }
 
 
 (* Force lazy payloads and allow marshalling of the resulting value *)
@@ -207,7 +210,8 @@ let freeze t =
        ; ssrf
        ; trust_boundary_violation
        ; path_injection
-       ; url_redirect }
+       ; url_redirect
+       ; weak_crypto }
        [@warning "+missing-record-field-pattern"] ) =
     t
   in
@@ -245,6 +249,7 @@ let freeze t =
   freeze trust_boundary_violation ;
   freeze path_injection ;
   freeze url_redirect ;
+  freeze weak_crypto ;
   ()
 
 
@@ -361,6 +366,7 @@ module SQLite = struct
       ~trust_boundary_violation:data_of_sqlite_column
       ~path_injection:data_of_sqlite_column
       ~url_redirect:data_of_sqlite_column
+      ~weak_crypto:data_of_sqlite_column
 
 
   let eager_load stmt ~first_column = (make_eager first_column |> fst) stmt
@@ -432,5 +438,6 @@ module SQLite = struct
     ; ssrf= load ~proc_uid SsrfPayload
     ; trust_boundary_violation= load ~proc_uid TrustBoundaryViolationPayload
     ; path_injection= load ~proc_uid PathInjectionPayload
-    ; url_redirect= load ~proc_uid UrlRedirectPayload }
+    ; url_redirect= load ~proc_uid UrlRedirectPayload
+    ; weak_crypto= load ~proc_uid WeakCryptoPayload }
 end
