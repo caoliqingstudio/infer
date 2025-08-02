@@ -41,7 +41,8 @@ type t =
   ; user_controlled_query: Labs.UserControlledQueryDomain.t SafeLazy.t option
   ; xxe: Labs.XxeDomain.t SafeLazy.t option
   ; ssrf: Labs.SsrfDomain.t SafeLazy.t option
-  ; trust_boundary_violation: Labs.TrustBoundaryViolationDomain.t SafeLazy.t option }
+  ; trust_boundary_violation: Labs.TrustBoundaryViolationDomain.t SafeLazy.t option
+  ; path_injection: Labs.PathInjectionDomain.t SafeLazy.t option }
 [@@deriving fields]
 
 let yojson_of_t {pulse} =
@@ -105,6 +106,7 @@ let all_fields =
     ~xxe:(fun f -> mk f XxePayload Labs.XxeDomain.pp)
     ~ssrf:(fun f -> mk f SsrfPayload Labs.SsrfDomain.pp)
     ~trust_boundary_violation:(fun f -> mk f TrustBoundaryViolationPayload Labs.TrustBoundaryViolationDomain.pp)
+    ~path_injection:(fun f -> mk f PathInjectionPayload Labs.PathInjectionDomain.pp)
   (* sorted to help serialization, see {!SQLite.serialize} below *)
   |> List.sort ~compare:(fun (F {payload_id= payload_id1}) (F {payload_id= payload_id2}) ->
          Int.compare
@@ -163,7 +165,8 @@ let empty =
   ; user_controlled_query= None
   ; xxe= None
   ; ssrf= None
-  ; trust_boundary_violation= None }
+  ; trust_boundary_violation= None
+  ; path_injection= None }
 
 
 (* Force lazy payloads and allow marshalling of the resulting value *)
@@ -199,7 +202,8 @@ let freeze t =
        ; user_controlled_query
        ; xxe
        ; ssrf
-       ; trust_boundary_violation }
+       ; trust_boundary_violation
+       ; path_injection }
        [@warning "+missing-record-field-pattern"] ) =
     t
   in
@@ -235,6 +239,7 @@ let freeze t =
   freeze xxe ;
   freeze ssrf ;
   freeze trust_boundary_violation ;
+  freeze path_injection ;
   ()
 
 
@@ -349,6 +354,7 @@ module SQLite = struct
       ~xxe:data_of_sqlite_column
       ~ssrf:data_of_sqlite_column
       ~trust_boundary_violation:data_of_sqlite_column
+      ~path_injection:data_of_sqlite_column
 
 
   let eager_load stmt ~first_column = (make_eager first_column |> fst) stmt
@@ -418,5 +424,6 @@ module SQLite = struct
     ; user_controlled_query= load ~proc_uid UserControlledQueryPayload
     ; xxe= load ~proc_uid XxePayload
     ; ssrf= load ~proc_uid SsrfPayload
-    ; trust_boundary_violation= load ~proc_uid TrustBoundaryViolationPayload }
+    ; trust_boundary_violation= load ~proc_uid TrustBoundaryViolationPayload
+    ; path_injection= load ~proc_uid PathInjectionPayload }
 end

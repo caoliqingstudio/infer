@@ -52,6 +52,7 @@ type t =
   | Xxe
   | Ssrf
   | TrustBoundaryViolation
+  | PathInjection
 [@@deriving compare, equal, enumerate]
 
 type support = NoSupport | ExperimentalSupport | Support
@@ -522,6 +523,15 @@ let config_unsafe checker =
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
           "Detect when untrusted HTTP request data is stored in HTTP sessions without validation"
+      ; cli_flags= Some {deprecated= []; show_in_help= true}
+      ; enabled_by_default= false
+      ; activates= [] }
+  | PathInjection ->
+      { id= "my-path-injection-only"
+      ; kind= UserFacing {title= "Path Injection"; markdown_body= "Detects path injection vulnerabilities when user-controlled data is used in file paths (CWE-022)"}
+      ; support= mk_support_func ~java:ExperimentalSupport ()
+      ; short_documentation=
+          "Detect when user-controlled data is used in file path operations without validation"
       ; cli_flags= Some {deprecated= []; show_in_help= true}
       ; enabled_by_default= false
       ; activates= [] }

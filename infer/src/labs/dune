@@ -38,7 +38,9 @@
   Ssrf
   SsrfDomain
   TrustBoundaryViolation
-  TrustBoundaryViolationDomain)
+  TrustBoundaryViolationDomain
+  PathInjection
+  PathInjectionDomain)
  (flags
   (:standard
    -open

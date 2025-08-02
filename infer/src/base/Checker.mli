@@ -51,6 +51,7 @@ type t =
   | Xxe
   | Ssrf
   | TrustBoundaryViolation
+  | PathInjection
 [@@deriving equal, enumerate]
 
 (** per-language support for each checker *)

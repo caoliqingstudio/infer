@@ -231,6 +231,8 @@ val ssrf : t
 
 val trust_boundary_violation : t
 
+val path_injection : t
+
 val unsafe_deserialization : t
 
 val lockless_violation : t

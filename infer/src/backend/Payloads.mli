@@ -50,7 +50,8 @@ include sig
     ; user_controlled_query: Labs.UserControlledQueryDomain.t SafeLazy.t option
     ; xxe: Labs.XxeDomain.t SafeLazy.t option
     ; ssrf: Labs.SsrfDomain.t SafeLazy.t option
-    ; trust_boundary_violation: Labs.TrustBoundaryViolationDomain.t SafeLazy.t option }
+    ; trust_boundary_violation: Labs.TrustBoundaryViolationDomain.t SafeLazy.t option
+    ; path_injection: Labs.PathInjectionDomain.t SafeLazy.t option }
   [@@deriving fields, yojson_of]
 end
 

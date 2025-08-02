@@ -210,6 +210,10 @@ let all_checkers =
     ; callbacks=
         [ ( interprocedural Payloads.Fields.trust_boundary_violation Labs.TrustBoundaryViolation.checker
           , Java ) ] }
+  ; { checker= PathInjection
+    ; callbacks=
+        [ ( interprocedural Payloads.Fields.path_injection Labs.PathInjection.checker
+          , Java ) ] }
   ; { checker= UnsafeDeserialization
     ; callbacks=
         [ ( interprocedural Payloads.Fields.unsafe_deserialization Labs.UnsafeDeserialization.checker

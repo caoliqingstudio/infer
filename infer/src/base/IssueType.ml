@@ -719,6 +719,11 @@ let trust_boundary_violation =
     ~user_documentation:"Untrusted data stored in trusted context (HTTP session) without validation"
 
 
+let path_injection =
+  register ~category:SensitiveDataFlow ~id:"PATH_INJECTION" Error PathInjection
+    ~user_documentation:"User-controlled data used in file path operations without validation"
+
+
 let unsafe_deserialization =
   register ~category:SensitiveDataFlow ~id:"UNSAFE_DESERIALIZATION" Error UnsafeDeserialization
     ~user_documentation:"Unsafe deserialization of user-controlled data may allow arbitrary code execution"
