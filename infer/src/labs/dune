@@ -34,7 +34,9 @@
   UserControlledQuery
   UserControlledQueryDomain
   Xxe
-  XxeDomain)
+  XxeDomain
+  Ssrf
+  SsrfDomain)
  (flags
   (:standard
    -open

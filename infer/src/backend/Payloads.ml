@@ -39,7 +39,8 @@ type t =
   ; temp_dir_disclosure: Labs.TempDirDisclosureDomain.summary SafeLazy.t option
   ; query_concatenation: Labs.QueryConcatenationDomain.t SafeLazy.t option
   ; user_controlled_query: Labs.UserControlledQueryDomain.t SafeLazy.t option
-  ; xxe: Labs.XxeDomain.t SafeLazy.t option }
+  ; xxe: Labs.XxeDomain.t SafeLazy.t option
+  ; ssrf: Labs.SsrfDomain.t SafeLazy.t option }
 [@@deriving fields]
 
 let yojson_of_t {pulse} =
@@ -101,6 +102,7 @@ let all_fields =
     ~query_concatenation:(fun f -> mk f QueryConcatenationPayload Labs.QueryConcatenationDomain.pp)
     ~user_controlled_query:(fun f -> mk f UserControlledQueryPayload Labs.UserControlledQueryDomain.pp)
     ~xxe:(fun f -> mk f XxePayload Labs.XxeDomain.pp)
+    ~ssrf:(fun f -> mk f SsrfPayload Labs.SsrfDomain.pp)
   (* sorted to help serialization, see {!SQLite.serialize} below *)
   |> List.sort ~compare:(fun (F {payload_id= payload_id1}) (F {payload_id= payload_id2}) ->
          Int.compare
@@ -157,7 +159,8 @@ let empty =
   ; temp_dir_disclosure= None
   ; query_concatenation= None
   ; user_controlled_query= None
-  ; xxe= None }
+  ; xxe= None
+  ; ssrf= None }
 
 
 (* Force lazy payloads and allow marshalling of the resulting value *)
@@ -191,7 +194,8 @@ let freeze t =
        ; temp_dir_disclosure
        ; query_concatenation
        ; user_controlled_query
-       ; xxe }
+       ; xxe
+       ; ssrf }
        [@warning "+missing-record-field-pattern"] ) =
     t
   in
@@ -225,6 +229,7 @@ let freeze t =
   freeze query_concatenation ;
   freeze user_controlled_query ;
   freeze xxe ;
+  freeze ssrf ;
   ()
 
 
@@ -337,6 +342,7 @@ module SQLite = struct
       ~query_concatenation:data_of_sqlite_column
       ~user_controlled_query:data_of_sqlite_column
       ~xxe:data_of_sqlite_column
+      ~ssrf:data_of_sqlite_column
 
 
   let eager_load stmt ~first_column = (make_eager first_column |> fst) stmt
@@ -404,5 +410,6 @@ module SQLite = struct
     ; temp_dir_disclosure= load ~proc_uid TempDirDisclosurePayload
     ; query_concatenation= load ~proc_uid QueryConcatenationPayload
     ; user_controlled_query= load ~proc_uid UserControlledQueryPayload
-    ; xxe= load ~proc_uid XxePayload }
+    ; xxe= load ~proc_uid XxePayload
+    ; ssrf= load ~proc_uid SsrfPayload }
 end

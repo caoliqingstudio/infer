@@ -48,7 +48,8 @@ include sig
     ; temp_dir_disclosure: Labs.TempDirDisclosureDomain.summary SafeLazy.t option
     ; query_concatenation: Labs.QueryConcatenationDomain.t SafeLazy.t option
     ; user_controlled_query: Labs.UserControlledQueryDomain.t SafeLazy.t option
-    ; xxe: Labs.XxeDomain.t SafeLazy.t option }
+    ; xxe: Labs.XxeDomain.t SafeLazy.t option
+    ; ssrf: Labs.SsrfDomain.t SafeLazy.t option }
   [@@deriving fields, yojson_of]
 end
 

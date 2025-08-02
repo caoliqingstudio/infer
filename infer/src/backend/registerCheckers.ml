@@ -202,6 +202,10 @@ let all_checkers =
     ; callbacks=
         [ ( interprocedural Payloads.Fields.xxe Labs.Xxe.checker
           , Java ) ] }
+  ; { checker= Ssrf
+    ; callbacks=
+        [ ( interprocedural Payloads.Fields.ssrf Labs.Ssrf.checker
+          , Java ) ] }
   ; { checker= UnsafeDeserialization
     ; callbacks=
         [ ( interprocedural Payloads.Fields.unsafe_deserialization Labs.UnsafeDeserialization.checker

@@ -709,6 +709,11 @@ let xxe =
     ~user_documentation:"XML parsing depends on user-controlled data without guarding against external entity expansion"
 
 
+let ssrf =
+  register ~category:SensitiveDataFlow ~id:"SSRF" Error Ssrf
+    ~user_documentation:"Potential server-side request forgery due to user-provided URL"
+
+
 let unsafe_deserialization =
   register ~category:SensitiveDataFlow ~id:"UNSAFE_DESERIALIZATION" Error UnsafeDeserialization
     ~user_documentation:"Unsafe deserialization of user-controlled data may allow arbitrary code execution"

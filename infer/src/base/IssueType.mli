@@ -227,6 +227,8 @@ val user_controlled_query : t
 
 val xxe : t
 
+val ssrf : t
+
 val unsafe_deserialization : t
 
 val lockless_violation : t

@@ -39,6 +39,7 @@ type t =
   | QueryConcatenationPayload
   | UserControlledQueryPayload
   | XxePayload
+  | SsrfPayload
 [@@deriving compare, equal, hash, show, variants]
 
 val database_fields : string list

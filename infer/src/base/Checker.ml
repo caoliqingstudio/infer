@@ -50,6 +50,7 @@ type t =
   | QueryConcatenation
   | UserControlledQuery
   | Xxe
+  | Ssrf
 [@@deriving compare, equal, enumerate]
 
 type support = NoSupport | ExperimentalSupport | Support
@@ -502,6 +503,15 @@ let config_unsafe checker =
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
           "Detect XML parsing of user-controlled data without external entity protection"
+      ; cli_flags= Some {deprecated= []; show_in_help= true}
+      ; enabled_by_default= false
+      ; activates= [] }
+  | Ssrf ->
+      { id= "my-ssrf-only"
+      ; kind= UserFacing {title= "SSRF"; markdown_body= "Detects Server-Side Request Forgery vulnerabilities from user-controlled URLs (CWE-918)"}
+      ; support= mk_support_func ~java:ExperimentalSupport ()
+      ; short_documentation=
+          "Detect HTTP requests made to user-controlled URLs without validation"
       ; cli_flags= Some {deprecated= []; show_in_help= true}
       ; enabled_by_default= false
       ; activates= [] }

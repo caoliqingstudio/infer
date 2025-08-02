@@ -49,6 +49,7 @@ type t =
   | QueryConcatenation
   | UserControlledQuery
   | Xxe
+  | Ssrf
 [@@deriving equal, enumerate]
 
 (** per-language support for each checker *)
