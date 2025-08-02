@@ -206,6 +206,10 @@ let all_checkers =
     ; callbacks=
         [ ( interprocedural Payloads.Fields.ssrf Labs.Ssrf.checker
           , Java ) ] }
+  ; { checker= TrustBoundaryViolation
+    ; callbacks=
+        [ ( interprocedural Payloads.Fields.trust_boundary_violation Labs.TrustBoundaryViolation.checker
+          , Java ) ] }
   ; { checker= UnsafeDeserialization
     ; callbacks=
         [ ( interprocedural Payloads.Fields.unsafe_deserialization Labs.UnsafeDeserialization.checker

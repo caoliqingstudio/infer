@@ -50,6 +50,7 @@ type t =
   | UserControlledQuery
   | Xxe
   | Ssrf
+  | TrustBoundaryViolation
 [@@deriving equal, enumerate]
 
 (** per-language support for each checker *)

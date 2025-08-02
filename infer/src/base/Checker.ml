@@ -51,6 +51,7 @@ type t =
   | UserControlledQuery
   | Xxe
   | Ssrf
+  | TrustBoundaryViolation
 [@@deriving compare, equal, enumerate]
 
 type support = NoSupport | ExperimentalSupport | Support
@@ -512,6 +513,15 @@ let config_unsafe checker =
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
           "Detect HTTP requests made to user-controlled URLs without validation"
+      ; cli_flags= Some {deprecated= []; show_in_help= true}
+      ; enabled_by_default= false
+      ; activates= [] }
+  | TrustBoundaryViolation ->
+      { id= "my-trust-boundary-violation-only"
+      ; kind= UserFacing {title= "Trust Boundary Violation"; markdown_body= "Detects trust boundary violations when untrusted data is stored in trusted contexts (CWE-501)"}
+      ; support= mk_support_func ~java:ExperimentalSupport ()
+      ; short_documentation=
+          "Detect when untrusted HTTP request data is stored in HTTP sessions without validation"
       ; cli_flags= Some {deprecated= []; show_in_help= true}
       ; enabled_by_default= false
       ; activates= [] }

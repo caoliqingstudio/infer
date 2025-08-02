@@ -40,6 +40,7 @@ type t =
   | UserControlledQueryPayload
   | XxePayload
   | SsrfPayload
+  | TrustBoundaryViolationPayload
 [@@deriving compare, equal, hash, show, variants]
 
 val database_fields : string list

@@ -714,6 +714,11 @@ let ssrf =
     ~user_documentation:"Potential server-side request forgery due to user-provided URL"
 
 
+let trust_boundary_violation =
+  register ~category:SensitiveDataFlow ~id:"TRUST_BOUNDARY_VIOLATION" Error TrustBoundaryViolation
+    ~user_documentation:"Untrusted data stored in trusted context (HTTP session) without validation"
+
+
 let unsafe_deserialization =
   register ~category:SensitiveDataFlow ~id:"UNSAFE_DESERIALIZATION" Error UnsafeDeserialization
     ~user_documentation:"Unsafe deserialization of user-controlled data may allow arbitrary code execution"

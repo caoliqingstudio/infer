@@ -229,6 +229,8 @@ val xxe : t
 
 val ssrf : t
 
+val trust_boundary_violation : t
+
 val unsafe_deserialization : t
 
 val lockless_violation : t

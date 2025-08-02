@@ -39,6 +39,7 @@ type t =
   | UserControlledQueryPayload
   | XxePayload
   | SsrfPayload
+  | TrustBoundaryViolationPayload
 [@@deriving compare, equal, hash, show, variants]
 
 let database_fields = List.map ~f:fst Variants.descriptions
@@ -107,3 +108,5 @@ let to_checker payload_id : Checker.t =
       Xxe
   | SsrfPayload ->
       Ssrf
+  | TrustBoundaryViolationPayload ->
+      TrustBoundaryViolation

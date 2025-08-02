@@ -40,7 +40,8 @@ type t =
   ; query_concatenation: Labs.QueryConcatenationDomain.t SafeLazy.t option
   ; user_controlled_query: Labs.UserControlledQueryDomain.t SafeLazy.t option
   ; xxe: Labs.XxeDomain.t SafeLazy.t option
-  ; ssrf: Labs.SsrfDomain.t SafeLazy.t option }
+  ; ssrf: Labs.SsrfDomain.t SafeLazy.t option
+  ; trust_boundary_violation: Labs.TrustBoundaryViolationDomain.t SafeLazy.t option }
 [@@deriving fields]
 
 let yojson_of_t {pulse} =
@@ -103,6 +104,7 @@ let all_fields =
     ~user_controlled_query:(fun f -> mk f UserControlledQueryPayload Labs.UserControlledQueryDomain.pp)
     ~xxe:(fun f -> mk f XxePayload Labs.XxeDomain.pp)
     ~ssrf:(fun f -> mk f SsrfPayload Labs.SsrfDomain.pp)
+    ~trust_boundary_violation:(fun f -> mk f TrustBoundaryViolationPayload Labs.TrustBoundaryViolationDomain.pp)
   (* sorted to help serialization, see {!SQLite.serialize} below *)
   |> List.sort ~compare:(fun (F {payload_id= payload_id1}) (F {payload_id= payload_id2}) ->
          Int.compare
@@ -160,7 +162,8 @@ let empty =
   ; query_concatenation= None
   ; user_controlled_query= None
   ; xxe= None
-  ; ssrf= None }
+  ; ssrf= None
+  ; trust_boundary_violation= None }
 
 
 (* Force lazy payloads and allow marshalling of the resulting value *)
@@ -195,7 +198,8 @@ let freeze t =
        ; query_concatenation
        ; user_controlled_query
        ; xxe
-       ; ssrf }
+       ; ssrf
+       ; trust_boundary_violation }
        [@warning "+missing-record-field-pattern"] ) =
     t
   in
@@ -230,6 +234,7 @@ let freeze t =
   freeze user_controlled_query ;
   freeze xxe ;
   freeze ssrf ;
+  freeze trust_boundary_violation ;
   ()
 
 
@@ -343,6 +348,7 @@ module SQLite = struct
       ~user_controlled_query:data_of_sqlite_column
       ~xxe:data_of_sqlite_column
       ~ssrf:data_of_sqlite_column
+      ~trust_boundary_violation:data_of_sqlite_column
 
 
   let eager_load stmt ~first_column = (make_eager first_column |> fst) stmt
@@ -411,5 +417,6 @@ module SQLite = struct
     ; query_concatenation= load ~proc_uid QueryConcatenationPayload
     ; user_controlled_query= load ~proc_uid UserControlledQueryPayload
     ; xxe= load ~proc_uid XxePayload
-    ; ssrf= load ~proc_uid SsrfPayload }
+    ; ssrf= load ~proc_uid SsrfPayload
+    ; trust_boundary_violation= load ~proc_uid TrustBoundaryViolationPayload }
 end

@@ -36,7 +36,9 @@
   Xxe
   XxeDomain
   Ssrf
-  SsrfDomain)
+  SsrfDomain
+  TrustBoundaryViolation
+  TrustBoundaryViolationDomain)
  (flags
   (:standard
    -open
