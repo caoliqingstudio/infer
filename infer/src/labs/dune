@@ -40,7 +40,9 @@
   TrustBoundaryViolation
   TrustBoundaryViolationDomain
   PathInjection
-  PathInjectionDomain)
+  PathInjectionDomain
+  UrlRedirect
+  UrlRedirectDomain)
  (flags
   (:standard
    -open

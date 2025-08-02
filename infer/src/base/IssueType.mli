@@ -233,6 +233,8 @@ val trust_boundary_violation : t
 
 val path_injection : t
 
+val url_redirection : t
+
 val unsafe_deserialization : t
 
 val lockless_violation : t

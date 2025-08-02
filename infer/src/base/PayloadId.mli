@@ -42,6 +42,7 @@ type t =
   | SsrfPayload
   | TrustBoundaryViolationPayload
   | PathInjectionPayload
+  | UrlRedirectPayload
 [@@deriving compare, equal, hash, show, variants]
 
 val database_fields : string list

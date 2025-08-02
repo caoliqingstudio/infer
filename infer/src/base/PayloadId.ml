@@ -41,6 +41,7 @@ type t =
   | SsrfPayload
   | TrustBoundaryViolationPayload
   | PathInjectionPayload
+  | UrlRedirectPayload
 [@@deriving compare, equal, hash, show, variants]
 
 let database_fields = List.map ~f:fst Variants.descriptions
@@ -113,3 +114,5 @@ let to_checker payload_id : Checker.t =
       TrustBoundaryViolation
   | PathInjectionPayload ->
       PathInjection
+  | UrlRedirectPayload ->
+      UrlRedirect

@@ -53,6 +53,7 @@ type t =
   | Ssrf
   | TrustBoundaryViolation
   | PathInjection
+  | UrlRedirect
 [@@deriving compare, equal, enumerate]
 
 type support = NoSupport | ExperimentalSupport | Support
@@ -532,6 +533,15 @@ let config_unsafe checker =
       ; support= mk_support_func ~java:ExperimentalSupport ()
       ; short_documentation=
           "Detect when user-controlled data is used in file path operations without validation"
+      ; cli_flags= Some {deprecated= []; show_in_help= true}
+      ; enabled_by_default= false
+      ; activates= [] }
+  | UrlRedirect ->
+      { id= "my-url-redirect-only"
+      ; kind= UserFacing {title= "URL Redirection"; markdown_body= "Detects URL redirection vulnerabilities from remote sources (CWE-601)"}
+      ; support= mk_support_func ~java:ExperimentalSupport ()
+      ; short_documentation=
+          "Detect when user-controlled data is used in URL redirection without validation"
       ; cli_flags= Some {deprecated= []; show_in_help= true}
       ; enabled_by_default= false
       ; activates= [] }

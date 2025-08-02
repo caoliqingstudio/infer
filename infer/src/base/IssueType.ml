@@ -724,6 +724,11 @@ let path_injection =
     ~user_documentation:"User-controlled data used in file path operations without validation"
 
 
+let url_redirection =
+  register ~category:SensitiveDataFlow ~id:"URL_REDIRECTION" Error UrlRedirect
+    ~user_documentation:"User-controlled data used in URL redirection without validation"
+
+
 let unsafe_deserialization =
   register ~category:SensitiveDataFlow ~id:"UNSAFE_DESERIALIZATION" Error UnsafeDeserialization
     ~user_documentation:"Unsafe deserialization of user-controlled data may allow arbitrary code execution"

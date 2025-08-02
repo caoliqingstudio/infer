@@ -51,7 +51,8 @@ include sig
     ; xxe: Labs.XxeDomain.t SafeLazy.t option
     ; ssrf: Labs.SsrfDomain.t SafeLazy.t option
     ; trust_boundary_violation: Labs.TrustBoundaryViolationDomain.t SafeLazy.t option
-    ; path_injection: Labs.PathInjectionDomain.t SafeLazy.t option }
+    ; path_injection: Labs.PathInjectionDomain.t SafeLazy.t option
+    ; url_redirect: Labs.UrlRedirectDomain.t SafeLazy.t option }
   [@@deriving fields, yojson_of]
 end
 

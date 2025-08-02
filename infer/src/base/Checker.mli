@@ -52,6 +52,7 @@ type t =
   | Ssrf
   | TrustBoundaryViolation
   | PathInjection
+  | UrlRedirect
 [@@deriving equal, enumerate]
 
 (** per-language support for each checker *)

@@ -214,6 +214,10 @@ let all_checkers =
     ; callbacks=
         [ ( interprocedural Payloads.Fields.path_injection Labs.PathInjection.checker
           , Java ) ] }
+  ; { checker= UrlRedirect
+    ; callbacks=
+        [ ( interprocedural Payloads.Fields.url_redirect Labs.UrlRedirect.checker
+          , Java ) ] }
   ; { checker= UnsafeDeserialization
     ; callbacks=
         [ ( interprocedural Payloads.Fields.unsafe_deserialization Labs.UnsafeDeserialization.checker
